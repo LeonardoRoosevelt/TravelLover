@@ -3,13 +3,18 @@ const Blog = db.Blog
 
 const blogController = {
   getBlog:(req, res, next) =>{
-    res.render('index')
+    Blog.findAll({ raw: true }).then(blogs=>{
+      return res.render('index',{blogs})
+  }).catch(next)
+  },
+  getCreateBlog:(req, res, next) =>{
+    res.render('createBlog')
   },
   createBlog:(req,res,next) =>{
-    const {description} = req.body
+    const {title,description} = req.body  
 
-    Blog.create({description:description}).then(() =>{
-      return res.json('all right')
+    Blog.create({title:title,description:description}).then( blog =>{
+      return res.redirect('/blogs')
     }).catch(next)
 
   },

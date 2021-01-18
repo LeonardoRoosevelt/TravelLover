@@ -1,13 +1,13 @@
 const express = require('express')
 const router = express.Router()
 
-const blog = require('./modules/blog')
-const user = require('./modules/user')
-const tracker = require('./modules/tracker')
+const blog = require('./modules/blogs')
+const user = require('./modules/users')
+const tracker = require('./modules/trackers')
 
-router.use('/user', user)
-router.use('/blog', blog)
-router.use('/tracker', tracker)
+router.use('/users', user)
+router.use('/blogs', blog)
+router.use('/trackers', tracker)
 
 
 module.exports = router

@@ -14,8 +14,8 @@
 </ul>
 <br>
 <div class="container">
-  <div class="feature" style="text-align:right;"><a class="btn btn-primary" href="#">Create</a></div>
-
+  <div class="feature" style="text-align:right;"><a class="btn btn-primary" href="/blogs/createBlog">Create</a></div>
+  {{#each blogs}}
   <div class="creative_taital">
     <div class="dropdown" style="text-align:right;">
       <i class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
@@ -26,55 +26,12 @@
         <a class="dropdown-item" href="#">刪除</a>
       </div>
     </div>
-    <h1 class="creative_text" style="text-align:center;">Title</h1>
-    <p style="color:#050000;text-align:center;">It is a long established fact that a reader will be distracted by the
-      readable content of a page when looking at it's
-      layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to
-      using
-      'Content here, content here', making it look like readable English. Many desktop publishing packages and web page
-      editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web
-      sites
-      still in their infancIt is a long established fact that a reader will be distracted by the readable content of a
-      page
-      when looking at it's layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of
-      letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop
-      publishing
-      packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will
-      uncover many web sites still in their infanc</p>
+    <h1 class="creative_text" style="text-align:center;">{{this.title}}</h1>
+    <p style="color:#050000;text-align:center;">{{this.description}}</p>
     <div class="info">
-      <p class="created_at">date</p>
-      <p class="created_location">location</p>
+      <p class="created_at">{{this.createdAt}}</p>
+      <p class="created_location">{{this.location}}</p>
     </div>
   </div>
   <hr>
-  <div class="creative_taital">
-    <div class="dropdown" style="text-align:right;">
-      <i class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-        aria-expanded="false">
-      </i>
-      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <a class="dropdown-item" href="#">編輯</a>
-        <a class="dropdown-item" href="#">刪除</a>
-      </div>
-    </div>
-    <h1 class="creative_text" style="text-align:center;">Title</h1>
-    <p style="color:#050000;text-align:center;">It is a long established fact that a reader will be distracted by the
-      readable content of a page when looking at it's
-      layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to
-      using
-      'Content here, content here', making it look like readable English. Many desktop publishing packages and web page
-      editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web
-      sites
-      still in their infancIt is a long established fact that a reader will be distracted by the readable content of a
-      page
-      when looking at it's layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of
-      letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop
-      publishing
-      packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will
-      uncover many web sites still in their infanc</p>
-    <div class="info">
-      <p class="created_at">date</p>
-      <p class="created_location">location</p>
-    </div>
-  </div>
-</div>
+  {{/each}}
