@@ -27,11 +27,19 @@ const blogController = {
   },
   updateBlog:(req,res,next)=>{
     const {blogId} = req.params
-    const {description} = req.body
+    const {title,description} = req.body
     
     Blog.findByPk(blogId).then(blog=>{
-      return blog.update({description:description})
+      return blog.update({title:title,description:description}).then(blog=>{
+        res.redirect('/blogs')
+      })
     }).catch(next)
+  },
+  editBlogPage:(req, res, next) =>{
+    const {blogId} = req.params
+    Blog.findByPk(blogId,{raw:true}).then(blog=>{
+      res.render('createBlog',{blog})
+    })
   }
 }
 

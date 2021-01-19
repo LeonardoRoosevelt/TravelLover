@@ -7,7 +7,7 @@ router.get('/', blogController.getBlog)
 router.get('/createBlog', blogController.getCreateBlog)
 router.post('/', blogController.createBlog)
 router.delete('/', blogController.deleteBlog)
-router.put('/', blogController.updateBlog)
-
+router.put('/:blogId', blogController.updateBlog)
+router.get('/:blogId/edit', blogController.editBlogPage)
 
 module.exports = router
