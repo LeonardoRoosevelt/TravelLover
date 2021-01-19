@@ -20,9 +20,10 @@ const blogController = {
   },
   deleteBlog:(req,res,next) =>{
     const {blogId} = req.params
-    
     Blog.findByPk(blogId).then(blog=>{
-      return blog.destroy()
+      return blog.destroy().then(blog =>{
+        res.redirect('/blogs')
+      })
     }).catch(next)
   },
   updateBlog:(req,res,next)=>{
