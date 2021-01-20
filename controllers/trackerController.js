@@ -1,6 +1,9 @@
+const db = require('../models')
+const tracker = db.Tracker
+
 const trackController = {
   getRecord:(req, res, next)=>{
-    res.send('record')
+    res.render('tracker')
   },
   createRecord:(req, res, next)=>{
 

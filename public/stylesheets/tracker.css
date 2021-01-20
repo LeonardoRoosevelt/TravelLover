@@ -1,0 +1,71 @@
+.container {
+  max-width: 820px;
+  margin: 0 auto;
+}
+h1 {
+  text-align: center;
+}
+.input-group {
+  max-width: 640px;
+  margin: 0 auto;
+}
+.total-title {
+  color: black;
+  margin: 5px;
+}
+.total-amount {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: orangered;
+}
+ul {
+  margin: 0;
+}
+
+li {
+  list-style-type: none;
+  padding-bottom: 5px;
+  padding-left: 15px;
+}
+
+li:nth-child(odd) {
+  background-color: #eeefff;
+}
+
+.icon {
+  color: blue;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.topic {
+  font-size: 20px;
+}
+.time {
+  font-size: 14px;
+}
+
+.price {
+  font-size: 30px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.create {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 5px;
+}
+
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
