@@ -4,11 +4,13 @@ const dayjs = require('dayjs')
 
 const trackController = {
   getRecord:(req, res, next)=>{
+    let totalAmount = 0
     Tracker.findAll({raw: true,order:[['date','ASC']]}).then(records=>{
       records.forEach(record=>{{
         record.date = dayjs(record.date).format('YYYY/MM/DD')
+        totalAmount += record.price
       }})
-      return res.render('tracker',{records})
+      return res.render('tracker',{records, totalAmount})
     }).catch(next)
   },
   getCreateRecord:(req, res, next)=>{
