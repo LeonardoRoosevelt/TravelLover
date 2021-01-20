@@ -11,6 +11,9 @@ module.exports = {
       product: {
         type: Sequelize.STRING
       },
+      date:{
+        type: Sequelize.DATE
+      },
       price: {
         type: Sequelize.INTEGER
       },

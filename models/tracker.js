@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   };
   Tracker.init({
     product: DataTypes.STRING,
+    date: DataTypes.DATE,
     price: DataTypes.INTEGER
   }, {
     sequelize,
