@@ -19,17 +19,17 @@ h1 {
   align-items: center;
   color: orangered;
 }
-ul {
+.record-ul {
   margin: 0;
 }
 
-li {
+.record-li {
   list-style-type: none;
   padding-bottom: 5px;
   padding-left: 15px;
 }
 
-li:nth-child(odd) {
+.record-li:nth-child(odd) {
   background-color: #eeefff;
 }
 

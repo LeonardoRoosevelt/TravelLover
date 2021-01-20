@@ -1,5 +1,21 @@
 <link rel="stylesheet" href="/stylesheets/tracker.css">
 
+
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link " href="#">Blog</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/map">Map</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" href="/trackers">Tracker</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/weather">Weather</a>
+  </li>
+</ul>
+<br>
 <div class="container">
   <div class="title">
     <h1>Travellover Tracker</h1>
@@ -15,8 +31,8 @@
   <div class="total-amount">
     <h1><span class='total-title'><sup>總金額:</sup></span>12345</h1>
   </div>
-  <ul>
-    <li>
+  <ul class="record-ul">
+    <li class="record-li">
       <div class="row d-flex justify-content-between">
         <div class="icon col-1"><i class="fas fa-utensils fa-2x"></i></div>
         <div class='detail col-4'>
@@ -34,7 +50,7 @@
         <a class='btn btn-danger col-1' href="">刪除</a>
       </div>
     </li>
-    <li>
+    <li class="record-li">
       <div class="row d-flex justify-content-between">
         <div class="icon col-1"><i class="fas fa-utensils fa-2x"></i></div>
         <div class='detail col-4'>
@@ -54,6 +70,6 @@
     </li>
   </ul>
   <div class="create">
-    <a href="/new" class="btn btn-warning">新增支出</a>
+    <a href="/trackers/createRecord" class="btn btn-warning">新增支出</a>
   </div>
 </div>
