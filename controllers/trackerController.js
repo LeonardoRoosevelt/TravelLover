@@ -29,7 +29,12 @@ const trackController = {
     .catch(next)
   },
   deleteRecord:(req, res, next)=>{
-
+    const {recordId} = req.params
+    Tracker.findByPk(recordId).then(record=>{
+      return record.destroy().then(record =>{
+        res.redirect('/trackers')
+      })
+    }).catch(next)
   },
   updateRecord:(req, res, next)=>{
     const {recordId} = req.params
