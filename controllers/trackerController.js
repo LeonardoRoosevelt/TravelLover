@@ -23,7 +23,7 @@ const trackController = {
   },
   createRecord:(req, res, next)=>{
     const {product,date,price,categoryId} = req.body
-      Tracker.create({product, date, price,CategoryId:categoryId}).then(record => {
+    Tracker.create({product, date, price,CategoryId:categoryId}).then(record => {
       res.redirect('/trackers')
     })
     .catch(next)
@@ -32,7 +32,14 @@ const trackController = {
 
   },
   updateRecord:(req, res, next)=>{
-
+    const {recordId} = req.params
+    const {product,date,price,categoryId} = req.body
+    Tracker.findByPk(recordId).then(record=>{
+      return record.update({product, date, price, CategoryId:categoryId}).then(record => {
+        res.redirect('/trackers')
+      })
+    })
+    .catch(next)
   },
   updateRecordPage:(req, res, next)=>{
     const {recordId} = req.params
