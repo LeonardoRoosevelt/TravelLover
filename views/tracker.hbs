@@ -35,7 +35,7 @@
     {{#each records}}
     <li class="record-li">
       <div class="row d-flex justify-content-between">
-        <div class="icon col-1"><i class="fas fa-utensils fa-2x"></i></div>
+        <div class="icon col-1"><i class="{{this.CategoryId}} fas fa-2x"></i></div>
         <div class='detail col-4'>
           <div>
             <i class='product'>{{this.product}}</i>
@@ -45,7 +45,7 @@
           </div>
         </div>
         <div class="price col-5">
-          <i class='price'>{{this.price}}</i>
+          <i class='price'>{{this.price}}元</i>
         </div>
         <a class='btn btn-success col-1' href="">編輯</a>
         <a class='btn btn-danger col-1' href="">刪除</a>
