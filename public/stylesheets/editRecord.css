@@ -1,0 +1,21 @@
+.editForm,
+.newForm {
+  max-width: 820px;
+  flex-direction: column;
+}
+
+h1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 5px;
+}
+
+.editRecord,
+.newRecord,
+.newCategory {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 5px;
+}
