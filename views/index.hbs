@@ -23,7 +23,8 @@
       </i>
       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
         <a class="dropdown-item" href="/blogs/{{this.id}}/edit">編輯</a>
-        <form action="/blogs/{{this.id}}?_method=DELETE" method="POST" style="display: inline;">
+        <form action="/blogs/{{this.id}}?_method=DELETE" method="POST" style="display: inline;"
+          onsubmit="return deleteCheckAgain()">
           <button type="submit" class="dropdown-item" style="outline:none;">刪除</button>
         </form>
       </div>
