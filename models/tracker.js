@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Tracker.hasMany(models.Category)
+      Tracker.belongsTo(models.Category)
     }
   };
   Tracker.init({
