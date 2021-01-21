@@ -33,7 +33,18 @@ const trackController = {
   },
   updateRecord:(req, res, next)=>{
 
+  },
+  updateRecordPage:(req, res, next)=>{
+    const {recordId} = req.params
+    Tracker.findByPk(recordId,{raw:true,nest:true,include:{model:Category}}).then(record=>{
+      categoryName = record.Category.category
+      record.date = record.date.toISOString().slice(0, 10)
+      return Category.findAll({raw:true}).then(categories=>{
+        return res.render('newRecord',{record, categories, categoryName})
+      })
+    }).catch(next)
   }
+
 }
 
 module.exports = trackController

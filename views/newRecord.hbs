@@ -1,32 +1,42 @@
 <link rel="stylesheet" href="/stylesheets/editRecord.css">
 
 <div class="container">
-  <form action="/trackers" method="POST" class='row newForm'>
-    <h1>支出新增頁面</h1>
-    <div class="newRecord">
-      <label for='product' class='new-label col-2'>支出明細:</label>
-      <input type="text" class='new-input col-10' placeholder="product" name="product" required>
-    </div>
-    <div class="newRecord">
-      <label for='categoryId' class='new-label col-2'>支出類別:</label>
-      <select class="custom-select new-input col-10" id="categoryId" name="categoryId" required>
-        <option disabled selected>類別</option>
-        {{#each categories}}
-        <option value="{{this.id}}" selected>{{this.category}}</option>
-        {{/each}}
-      </select>
-    </div>
-    <div class="newRecord">
-      <label for='date' class='new-label col-2'>支出日期:</label>
-      <input type="date" class='new-input col-10' placeholder="date" name="date" required>
-    </div>
-    <div class="newRecord">
-      <label for='price' class='new-label col-2'>支出金額:</label>
-      <input type="text" class='new-input col-10' placeholder="price" name="price" required>
-    </div>
-    <div class="newRecord">
-      <button type='submit' class="btn btn-success">create</button>
-      <a href="/" class="btn btn-danger">back</a>
-    </div>
+  {{#if record}}
+  <form action="/trackers/{{record.id}}?_method=PUT" method="POST" class='row newForm'></form>
+  {{else}}
+  <form action="/trackers" method="POST" class='row newForm'></form>
+  {{/if}}
+  <h1>支出新增頁面</h1>
+  <div class="newRecord">
+    <label for='product' class='new-label col-2'>支出明細:</label>
+    <input type="text" class='new-input col-10' placeholder="product" name="product" value="{{record.product}}"
+      required>
+  </div>
+  <div class="newRecord">
+    <label for='categoryId' class='new-label col-2'>支出類別:</label>
+    <select class="custom-select new-input col-10" id="categoryId" name="categoryId" required>
+      {{#if record}}
+      <option value="{{record.CategoryId}}">{{categoryName}}</option>
+      <option disabled>類別</option>
+      {{else}}
+      <option disabled selected>類別</option>
+      {{/if}}
+      {{#each categories}}
+      <option value="{{this.id}}">{{this.category}}</option>
+      {{/each}}
+    </select>
+  </div>
+  <div class="newRecord">
+    <label for='date' class='new-label col-2'>支出日期:</label>
+    <input type="date" class='new-input col-10' placeholder="date" name="date" value="{{record.date}}" required>
+  </div>
+  <div class="newRecord">
+    <label for='price' class='new-label col-2'>支出金額:</label>
+    <input type="text" class='new-input col-10' placeholder="price" name="price" value="{{record.price}}" required>
+  </div>
+  <div class="newRecord">
+    <button type='submit' class="btn btn-success">create</button>
+    <a href="/" class="btn btn-danger">back</a>
+  </div>
   </form>
 </div>
