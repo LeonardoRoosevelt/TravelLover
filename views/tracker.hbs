@@ -3,7 +3,7 @@
 
 <ul class="nav nav-tabs">
   <li class="nav-item">
-    <a class="nav-link " href="#">Blog</a>
+    <a class="nav-link " href="blogs">Blog</a>
   </li>
   <li class="nav-item">
     <a class="nav-link" href="/map">Map</a>
@@ -16,17 +16,44 @@
   </li>
 </ul>
 <br>
+<div class="title">
+  <h1>Travellover Tracker</h1>
+</div>
 <div class="container">
-  <div class="title">
-    <h1>Travellover Tracker</h1>
-  </div>
-  <div class="input-group mb-3">
-    <select class="custom-select" id="inputGroupSelect01">
-      <option selected>類別</option>
-      <option value="1">One</option>
-      <option value="2">Two</option>
-      <option value="3">Three</option>
-    </select>
+  <div class="row d-flex justify-content-center m-3">
+    <div class="createCategory">
+      <form method="GET" action='/trackers/filters'>
+        <div class="filters row mr-2">
+          <div class="filterCategory">
+            <select class="btn btn-secondary dropdown-toggle" name="category" onchange="submit()">
+              {{#if categories}}<option>{{categories}}</option>{{/if}}
+              <option class="dropdown-item" value="全部">全部</option>
+              {{#each categoriesList}}
+              <option class="dropdown-item" value="{{this.category}}">{{this.category}}</option>
+              {{/each}}
+            </select>
+          </div>
+          <div class="filterYear ml-3">
+            <select class="btn btn-secondary dropdown-toggle" name="year" onchange="submit()">
+              {{#if years}}<option>{{years}}</option>{{/if}}
+              <option class="dropdown-item" value="全部">全部</option>
+              {{#each yearsList}}
+              <option class="dropdown-item" value="{{this}}">{{this}}</option>
+              {{/each}}
+            </select>
+          </div>
+          <div class="filterMonth ml-3">
+            <select class="btn btn-secondary dropdown-toggle" name="month" onchange="submit()">
+              {{#if months}}<option>{{months}}</option>{{/if}}
+              <option class="dropdown-item" value="全部">全部</option>
+              {{#each monthsList}}
+              <option class="dropdown-item" value="{{this}}">{{this}}</option>
+              {{/each}}
+            </select>
+          </div>
+        </div>
+      </form>
+    </div>
   </div>
   <div class="total-amount">
     <h1><span class='total-title'><sup>總金額:</sup></span>{{totalAmount}}</h1>
