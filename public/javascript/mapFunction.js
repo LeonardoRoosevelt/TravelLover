@@ -43,6 +43,47 @@ function initMap() {
   new MarkerClusterer(map, markers, {
     imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m',
   })
+
+  //PlaceId Finder
+  const input = document.getElementById('pac-input')
+  const autocomplete = new google.maps.places.Autocomplete(input)
+  autocomplete.bindTo('bounds', map)
+  // Specify just the place data fields that you need.
+  autocomplete.setFields(['place_id', 'geometry', 'name'])
+  map.controls[google.maps.ControlPosition.TOP_LEFT].push(input)
+  const infowindowContent = document.getElementById('infowindow-content')
+  infoWindow.setContent(infowindowContent)
+  autocomplete.addListener('place_changed', () => {
+    infoWindow.close()
+    const place = autocomplete.getPlace()
+    if (!place.geometry) {
+      return
+    }
+    const placeMarker = new google.maps.Marker({ map: map })
+    if (place.geometry.viewport) {
+      map.fitBounds(place.geometry.viewport)
+    } else {
+      map.setCenter(place.geometry.location)
+      map.setZoom(17)
+    }
+    // Set the position of the marker using the place ID and location.
+    placeMarker.setPlace({
+      placeId: place.place_id,
+      location: place.geometry.location,
+    })
+
+    placeMarker.addListener('click', (mapsMouseEvent) => {
+      infoWindow.close(map)
+      infoWindow = new google.maps.InfoWindow({
+        position: place.geometry.location,
+      })
+      infoWindow.setContent(
+        `<span id="place-name" class="title">${place.name}</span><br/><br/>
+        <a class="btn btn-primary" href="/blogs/createBlog/${mapsMouseEvent.latLng}">Create Blog</a><a class="btn btn-success ml-3" href="/trackers/createRecord/${mapsMouseEvent.latLng}">Create Tracker</a>`
+      )
+      infoWindow.open(map)
+    })
+  })
 }
 
 const locations = [
