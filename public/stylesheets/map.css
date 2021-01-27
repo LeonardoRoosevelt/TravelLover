@@ -36,3 +36,7 @@
 #map #infowindow-content {
   display: inline;
 }
+
+#geoBtn {
+  display: inline;
+}

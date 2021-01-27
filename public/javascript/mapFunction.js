@@ -84,6 +84,47 @@ function initMap() {
       infoWindow.open(map)
     })
   })
+  //geolocation
+  const locationButton = document.getElementById('geoBtn')
+  locationButton.textContent = 'Get Current Location'
+  locationButton.classList.add('custom-map-control-button')
+  map.controls[google.maps.ControlPosition.TOP_RIGHT].push(locationButton)
+  locationButton.addEventListener('click', () => {
+    // Try HTML5 geolocation.
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          }
+          infoWindow.setPosition(pos)
+          infoWindow.setContent(
+            `<a class="btn btn-primary" href="/blogs/createBlog/(${pos.lat}, ${pos.lng})">Create Blog</a><a class="btn btn-success ml-3" href="/trackers/createRecord/(${pos.lat}, ${pos.lng})">Create Tracker</a>`
+          )
+          infoWindow.open(map)
+          map.setCenter(pos)
+          map.setZoom(17)
+        },
+        () => {
+          handleLocationError(true, infoWindow, map.getCenter())
+        }
+      )
+    } else {
+      // Browser doesn't support Geolocation
+      handleLocationError(false, infoWindow, map.getCenter())
+    }
+  })
+}
+
+function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+  infoWindow.setPosition(pos)
+  infoWindow.setContent(
+    browserHasGeolocation
+      ? 'Error: The Geolocation service failed.'
+      : "Error: Your browser doesn't support geolocation."
+  )
+  infoWindow.open(map)
 }
 
 const locations = [
