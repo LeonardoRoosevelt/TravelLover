@@ -1,4 +1,5 @@
 function initMap() {
+  let markers = []
   infoWindow = new google.maps.InfoWindow()
   const map = new google.maps.Map(document.getElementById('map'), {
     center: { lat: 25.047817, lng: 121.516959 },
@@ -10,6 +11,16 @@ function initMap() {
       position: new google.maps.LatLng(location.lat, location.lng),
       map: map,
     })
+    marker.addListener('click', (mapsMouseEvent) => {
+      // Close the other InfoWindow.
+      infoWindow.close()
+      // Create a new InfoWindow.
+      infoWindow = new google.maps.InfoWindow({
+        position: mapsMouseEvent.latLng,
+      })
+      infoWindow.open(map)
+    })
+    markers.push(marker)
   })
 }
 
