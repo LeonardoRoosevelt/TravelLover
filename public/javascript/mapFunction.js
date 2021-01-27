@@ -18,6 +18,9 @@ function initMap() {
       infoWindow = new google.maps.InfoWindow({
         position: mapsMouseEvent.latLng,
       })
+      infoWindow.setContent(
+        `<a class="btn btn-primary" href="/blogs/createBlog/${mapsMouseEvent.latLng}">Create Blog</a><a class="btn btn-success ml-3" href="/trackers/createRecord/${mapsMouseEvent.latLng}">Create Tracker</a>`
+      )
       infoWindow.open(map)
     })
     markers.push(marker)
@@ -30,6 +33,9 @@ function initMap() {
     infoWindow = new google.maps.InfoWindow({
       position: mapsMouseEvent.latLng,
     })
+    infoWindow.setContent(
+      `<a class="btn btn-primary" href="/blogs/createBlog/${mapsMouseEvent.latLng}">Create Blog</a><a class="btn btn-success ml-3" href="/trackers/createRecord/${mapsMouseEvent.latLng}">Create Tracker</a>`
+    )
     infoWindow.open(map)
   })
 }
