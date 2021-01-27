@@ -22,6 +22,16 @@ function initMap() {
     })
     markers.push(marker)
   })
+  // Configure the click listener.
+  map.addListener('click', (mapsMouseEvent) => {
+    // Close the other InfoWindow.
+    infoWindow.close()
+    // Create a new InfoWindow.
+    infoWindow = new google.maps.InfoWindow({
+      position: mapsMouseEvent.latLng,
+    })
+    infoWindow.open(map)
+  })
 }
 
 const locations = [
