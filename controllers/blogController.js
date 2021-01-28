@@ -34,9 +34,22 @@ const blogController = {
     res.render('createBlog')
   },
   createBlog: (req, res, next) => {
-    const { title, description } = req.body
-
-    Blog.create({ title: title, description: description })
+    const { title, description, location, lat, lng } = req.body
+    if (lat !== '') {
+      return Marker.findOrCreate({ raw: true, where: { lat: lat, lng: lng } })
+        .then((marker) => {
+          Blog.create({
+            title: title,
+            description: description,
+            location: location,
+            MarkerId: marker[0].id
+          }).then((blog) => {
+            return res.redirect('/blogs')
+          })
+        })
+        .catch(next)
+    }
+    return Blog.create({ title: title, description: description, location: location })
       .then((blog) => {
         return res.redirect('/blogs')
       })
