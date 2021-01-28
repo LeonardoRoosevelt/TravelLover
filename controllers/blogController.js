@@ -1,11 +1,12 @@
 const db = require('../models')
 const dayjs = require('dayjs')
 const Blog = db.Blog
+const Marker = db.Marker
 const { yearFilter } = require('../public/javascript/function')
 
 const blogController = {
   getBlog: (req, res, next) => {
-    let monthsList = [
+    const monthsList = [
       '一月',
       '二月',
       '三月',
@@ -17,7 +18,7 @@ const blogController = {
       '九月',
       '十月',
       '十一月',
-      '十二月',
+      '十二月'
     ]
     Blog.findAll({ raw: true, order: [['createdAt', 'DESC']] })
       .then((blogs) => {
@@ -53,11 +54,11 @@ const blogController = {
   },
   updateBlog: (req, res, next) => {
     const { blogId } = req.params
-    const { title, description } = req.body
+    const { title, description, location } = req.body
 
     Blog.findByPk(blogId)
       .then((blog) => {
-        return blog.update({ title: title, description: description }).then((blog) => {
+        return blog.update({ title: title, description: description, location: location }).then((blog) => {
           res.redirect('/blogs')
         })
       })
@@ -69,6 +70,17 @@ const blogController = {
       res.render('createBlog', { blog })
     })
   },
+  getCreateBlogByLocationRequest: (req, res, next) => {
+    const { location, locationName } = req.params
+    // 獲得latLng
+    const latLng = location
+      .slice(1, -1)
+      .split(',')
+      .map((item) => item.trim())
+    const lat = latLng[0]
+    const lng = latLng[1]
+    res.render('createBlog', { lat, lng, locationName })
+  }
 }
 
 module.exports = blogController
