@@ -8,18 +8,26 @@ function initMap() {
 
   addMarkers(map)
 
-  // Configure the click listener.
+  // click listener configures by PlaceId.
   map.addListener('click', (mapsMouseEvent) => {
-    // Close the other InfoWindow.
-    infoWindow.close()
     // Create a new InfoWindow.
     infoWindow = new google.maps.InfoWindow({
       position: mapsMouseEvent.latLng
     })
-    infoWindow.setContent(
-      `<a class="btn btn-primary" href="/blogs/createBlog/${mapsMouseEvent.latLng}">Create Blog</a><a class="btn btn-success ml-3" href="/trackers/createRecord/${mapsMouseEvent.latLng}">Create Tracker</a>`
-    )
-    infoWindow.open(map)
+    if (mapsMouseEvent.placeId) {
+      let request = { placeId: mapsMouseEvent.placeId, fields: ['name', 'geometry'] }
+      let service = new google.maps.places.PlacesService(map)
+      service.getDetails(request, (place, status) => {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+          infoWindow.close()
+          infoWindow.setContent(
+            `<div></div><span id="place-name" class="title" style="text-align: center; display:block;">${place.name}</span><br/>
+           <a class="btn btn-primary" href="/blogs/createBlog/${place.geometry.location}/${place.name}">Create Blog</a><a class="btn btn-success ml-3" href="/trackers/createRecord/${place.geometry.location}/${place.name}">Create Tracker</a></div>`
+          )
+          infoWindow.open(map)
+        }
+      })
+    }
   })
 
   // PlaceId Finder
