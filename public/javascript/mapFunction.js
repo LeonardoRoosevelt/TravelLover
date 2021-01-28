@@ -64,8 +64,8 @@ function initMap() {
         position: place.geometry.location
       })
       infoWindow.setContent(
-        `<span id="place-name" class="title">${place.name}</span><br/><br/>
-        <a class="btn btn-primary" href="/blogs/createBlog/${mapsMouseEvent.latLng}">Create Blog</a><a class="btn btn-success ml-3" href="/trackers/createRecord/${mapsMouseEvent.latLng}">Create Tracker</a>`
+        `<span id="place-name" class="title" style="text-align: center; display:block;">${place.name}</span><br/>
+        <a class="btn btn-primary" href="/blogs/createBlog/${mapsMouseEvent.latLng}/${place.name}">Create Blog</a><a class="btn btn-success ml-3" href="/trackers/createRecord/${mapsMouseEvent.latLng}/${place.name}">Create Tracker</a>`
       )
       infoWindow.open(map)
     })
@@ -86,7 +86,8 @@ function initMap() {
           }
           infoWindow.setPosition(pos)
           infoWindow.setContent(
-            `<a class="btn btn-primary" href="/blogs/createBlog/(${pos.lat}, ${pos.lng})">Create Blog</a><a class="btn btn-success ml-3" href="/trackers/createRecord/(${pos.lat}, ${pos.lng})">Create Tracker</a>`
+            `<span id="place-name" class="title" style="text-align: center; display:block;">本地定位</span><br/>
+            <a class="btn btn-primary" href="/blogs/createBlog/(${pos.lat}, ${pos.lng})">Create Blog</a><a class="btn btn-success ml-3" href="/trackers/createRecord/(${pos.lat}, ${pos.lng})">Create Tracker</a>`
           )
           infoWindow.open(map)
           map.setCenter(pos)
