@@ -2,12 +2,13 @@ const db = require('../models')
 const Tracker = db.Tracker
 const Category = db.Category
 const dayjs = require('dayjs')
-const { yearFilter, arrFilter } = require('../public/javascript/function')
+const { yearFilter } = require('../public/javascript/function')
 
 const trackController = {
   getRecord: (req, res, next) => {
     let totalAmount = 0
     let categoriesList = []
+    let yearsList = []
     let monthsList = [
       '一月',
       '二月',
@@ -20,11 +21,12 @@ const trackController = {
       '九月',
       '十月',
       '十一月',
-      '十二月',
+      '十二月'
     ]
     Tracker.findAll({ raw: true, nest: true, order: [['date', 'ASC']], include: [{ model: Category }] })
       .then((records) => {
-        const yearsList = [...new Set(records.map((record) => yearFilter(record.date)))]
+        yearsList = [...new Set(records.map((record) => yearFilter(record.date)))]
+        totalAmount = records.map((record) => record.price).reduce((a, b) => a + b, 0)
         Promise.all([
           records.forEach((record) => {
             record.date = dayjs(record.date).format('YYYY/MM/DD')
@@ -34,15 +36,15 @@ const trackController = {
             categories.forEach((category) => {
               categoriesList.push(category)
             })
-          }),
-        ])
-        totalAmount = records.map((record) => record.price).reduce((a, b) => a + b, 0)
-        return res.render('tracker', {
-          records,
-          totalAmount,
-          yearsList,
-          categoriesList,
-          monthsList,
+          })
+        ]).then(() => {
+          return res.render('tracker', {
+            records,
+            totalAmount,
+            yearsList,
+            categoriesList,
+            monthsList
+          })
         })
       })
       .catch(next)
@@ -92,7 +94,7 @@ const trackController = {
         })
       })
       .catch(next)
-  },
+  }
 }
 
 module.exports = trackController
