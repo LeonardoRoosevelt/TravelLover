@@ -8,7 +8,8 @@ const mapController = {
   },
   getMapJson: (req, res, next) => {
     Marker.findAll({
-      attributes: ['lat', 'lng']
+      attributes: ['lat', 'lng'],
+      include: [{ model: Blog, attributes: ['location'], limit: 1 }]
     }).then((markers) => {
       return res.json(markers)
     })
