@@ -18,15 +18,6 @@
     <form method="GET" action='/blogs/filters'>
       <div class="formData row" style='justify-content:space-between;'>
         <div class="filter row ml-3">
-          <div class="filterCategory">
-            <select class="btn btn-secondary dropdown-toggle" name="category" onchange="submit()">
-              {{#if categories}}<option>{{categories}}</option>{{/if}}
-              <option class="dropdown-item" value="全部">全部</option>
-              {{#each categoriesList}}
-              <option class="dropdown-item" value="{{this.category}}">{{this.category}}</option>
-              {{/each}}
-            </select>
-          </div>
           <div class="filterYear ml-3">
             <select class="btn btn-secondary dropdown-toggle" name="year" onchange="submit()">
               {{#if years}}<option>{{years}}</option>{{/if}}
