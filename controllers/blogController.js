@@ -35,10 +35,11 @@ const blogController = {
   },
   createBlog: (req, res, next) => {
     const { title, description, location, lat, lng } = req.body
+    const type = 'blog'
     if (lat !== '') {
-      return Marker.findOrCreate({ raw: true, where: { lat: lat, lng: lng } })
+      return Marker.findOrCreate({ raw: true, where: { lat: lat, lng: lng, type: type } })
         .then((marker) => {
-          Blog.create({
+          return Blog.create({
             title: title,
             description: description,
             location: location,
