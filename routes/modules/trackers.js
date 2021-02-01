@@ -11,5 +11,7 @@ router.get('/:recordId/edit', trackerController.updateRecordPage)
 router.delete('/:recordId', trackerController.deleteRecord)
 router.put('/:recordId', trackerController.updateRecord)
 router.get('/filters', filterController.filterRecords)
+router.get('/createRecord/:location', trackerController.getCreateRecordByLocationRequest)
+router.get('/createRecord/:location/:locationName', trackerController.getCreateRecordByLocationRequest)
 
 module.exports = router

@@ -1,6 +1,7 @@
 const db = require('../models')
 const Tracker = db.Tracker
 const Category = db.Category
+const Marker = db.Marker
 const dayjs = require('dayjs')
 const { yearFilter } = require('../public/javascript/function')
 
@@ -55,10 +56,34 @@ const trackController = {
     })
   },
   createRecord: (req, res, next) => {
-    const { product, date, price, categoryId } = req.body
-    Tracker.create({ product, date, price, CategoryId: categoryId })
+    const { product, date, price, categoryId, location, lat, lng } = req.body
+    console.log(lat)
+    if (lat !== '') {
+      return Marker.findOrCreate({
+        raw: true,
+        where: { lat: lat, lng: lng, type: 'record' },
+        defaults: { type: 'record' }
+      })
+        .then((marker) => {
+          console.log(marker)
+          return Tracker.create({
+            product,
+            date,
+            price,
+            CategoryId: categoryId,
+            location,
+            MarkerId: marker[0].id
+          }).then((record) => {
+            console.log(record)
+            return res.redirect('/trackers')
+          })
+        })
+        .catch(next)
+    }
+    return Tracker.create({ product, date, price, CategoryId: categoryId, location })
       .then((record) => {
-        res.redirect('/trackers')
+        console.log(record)
+        return res.redirect('/trackers')
       })
       .catch(next)
   },
@@ -94,6 +119,19 @@ const trackController = {
         })
       })
       .catch(next)
+  },
+  getCreateRecordByLocationRequest: (req, res, next) => {
+    const { location, locationName } = req.params
+    // 獲得latLng
+    const latLng = location
+      .slice(1, -1)
+      .split(',')
+      .map((item) => item.trim())
+    const lat = latLng[0]
+    const lng = latLng[1]
+    return Category.findAll({ raw: true }).then((categories) => {
+      return res.render('newRecord', { lat, lng, locationName, categories })
+    })
   }
 }
 
