@@ -15,7 +15,8 @@ module.exports = (sequelize, DataTypes) => {
   Marker.init(
     {
       lat: DataTypes.STRING,
-      lng: DataTypes.STRING
+      lng: DataTypes.STRING,
+      type: DataTypes.STRING
     },
     {
       sequelize,
