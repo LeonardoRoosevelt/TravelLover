@@ -65,7 +65,6 @@ const trackController = {
         defaults: { type: 'record' }
       })
         .then((marker) => {
-          console.log(marker)
           return Tracker.create({
             product,
             date,
@@ -74,7 +73,6 @@ const trackController = {
             location,
             MarkerId: marker[0].id
           }).then((record) => {
-            console.log(record)
             return res.redirect('/trackers')
           })
         })
@@ -82,7 +80,6 @@ const trackController = {
     }
     return Tracker.create({ product, date, price, CategoryId: categoryId, location })
       .then((record) => {
-        console.log(record)
         return res.redirect('/trackers')
       })
       .catch(next)

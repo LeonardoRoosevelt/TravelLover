@@ -25,17 +25,20 @@ h1 {
 
 .record-li {
   list-style-type: none;
-  padding-bottom: 5px;
+  margin-bottom: 5px;
   padding-left: 15px;
+  text-align: left;
 }
 
 .record-li:nth-child(odd) {
-  background-color: #eeefff;
+  background-color: #d9dae2;
+}
+.record-li:nth-child(even) {
+  background-color: #b5b7ca;
 }
 
 .icon {
   color: blue;
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -68,4 +71,10 @@ h1 {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.detail {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }

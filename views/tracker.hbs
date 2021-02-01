@@ -1,9 +1,8 @@
 <link rel="stylesheet" href="/stylesheets/tracker.css">
 
-
 <ul class="nav nav-tabs">
   <li class="nav-item">
-    <a class="nav-link " href="blogs">Blog</a>
+    <a class="nav-link " href="/blogs">Blog</a>
   </li>
   <li class="nav-item">
     <a class="nav-link" href="/map">Map</a>
@@ -21,7 +20,7 @@
 </div>
 <div class="container">
   <div class="row d-flex justify-content-center m-3">
-    <div class="createCategory">
+    <div class="filterForm">
       <form method="GET" action='/trackers/filters'>
         <div class="filters row mr-2">
           <div class="filterCategory">
@@ -64,21 +63,24 @@
       <div class="row d-flex justify-content-between">
         <div class="icon col-1"><i class="{{this.CategoryId}} fas fa-2x"></i></div>
         <div class='detail col-4'>
-          <div>
+          <div class='product'>
             <i class='product'>{{this.product}}</i>
           </div>
-          <div>
+          <div class='date'>
             <i class='date'>{{this.date}}</i>
           </div>
+          {{#if this.location}}
+          <div class="location">
+            <i class="created_location"><i class="fas fa-map-marker-alt"></i> {{this.location}}</i>
+          </div>
+          {{/if}}
         </div>
         <div class="price col-5">
           <i class='price'>{{this.price}}元</i>
         </div>
         <a class='btn btn-success col-1' href="/trackers/{{this.id}}/edit">編輯</a>
         <form action="/trackers/{{this.id}}?_method=DELETE" method="post" style="display: inline;"
-          onsubmit="return deleteCheckAgain()">
-          <button class='btn btn-danger col-12 py-3' type="submit">刪除</button>
-        </form>
+          onsubmit="return deleteCheckAgain()" class='btn btn-danger py-4' type="submit">刪除</form>
       </div>
     </li>
     {{/each}}
