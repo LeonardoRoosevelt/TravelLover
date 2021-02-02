@@ -1,4 +1,5 @@
 let markers = []
+let url = document.getElementById('axiosUrl').innerText
 function initMap() {
   const map = new google.maps.Map(document.getElementById('map'), {
     center: { lat: 25.047817, lng: 121.516959 },
@@ -148,10 +149,10 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 function setMarkers(map) {
   let infoWindow = new google.maps.InfoWindow()
   axios
-    .get('/map/json')
+    .get(url)
     .then((response) => {
       const locations = response.data
-      locations.forEach((l) => {
+      locations.map((l) => {
         marker = new google.maps.Marker({
           position: new google.maps.LatLng(l.lat, l.lng),
           map: map

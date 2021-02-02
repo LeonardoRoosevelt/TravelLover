@@ -2,6 +2,7 @@ const db = require('../models')
 const Tracker = db.Tracker
 const Category = db.Category
 const Blog = db.Blog
+const Marker = db.Marker
 const dayjs = require('dayjs')
 const { monthFilter, yearFilter } = require('../public/javascript/function')
 
@@ -21,7 +22,7 @@ const filterController = {
       '九月',
       '十月',
       '十一月',
-      '十二月',
+      '十二月'
     ]
     Blog.findAll({ raw: true, nest: true, order: [['createdAt', 'DESC']] }).then((blogs) => {
       const yearsList = [...new Set(blogs.map((blog) => yearFilter(blog.createdAt)))]
@@ -40,7 +41,7 @@ const filterController = {
           } else {
             console.log('error')
           }
-        }),
+        })
       ])
       blogList.forEach((blog) => {
         blog.createdAt = dayjs(blog.createdAt).format('YYYY/MM/DD')
@@ -50,7 +51,7 @@ const filterController = {
         yearsList,
         monthsList,
         years: year,
-        months: month,
+        months: month
       })
     })
   },
@@ -71,7 +72,7 @@ const filterController = {
       '九月',
       '十月',
       '十一月',
-      '十二月',
+      '十二月'
     ]
     Tracker.findAll({ raw: true, nest: true, order: [['date', 'ASC']], include: [{ model: Category }] })
       .then((records) => {
@@ -116,7 +117,7 @@ const filterController = {
             categories.forEach((category) => {
               categoriesList.push(category)
             })
-          }),
+          })
         ])
         recordsList.forEach((record) => {
           record.date = dayjs(record.date).format('YYYY/MM/DD')
@@ -131,11 +132,42 @@ const filterController = {
           totalAmount,
           years: year,
           months: month,
-          categories: category,
+          categories: category
         })
       })
       .catch(next)
   },
+  filterMap: (req, res, next) => {
+    const { year, month, type } = req.query
+    let markerList = []
+    let monthsList = [
+      '一月',
+      '二月',
+      '三月',
+      '四月',
+      '五月',
+      '六月',
+      '七月',
+      '八月',
+      '九月',
+      '十月',
+      '十一月',
+      '十二月'
+    ]
+    Marker.findAll({ raw: true, nest: true }).then((markers) => {
+      const yearsList = [...new Set(markers.map((marker) => yearFilter(marker.createdAt)))]
+      const typesList = [...new Set(markers.map((marker) => marker.type))]
+      return res.render('map', {
+        url: `/map/filterJson/${type}/${year}/${month}`,
+        yearsList,
+        monthsList,
+        typesList,
+        years: year,
+        months: month,
+        types: type
+      })
+    })
+  }
 }
 
 module.exports = filterController
