@@ -48,7 +48,7 @@ function initMap() {
   autocomplete.bindTo('bounds', map)
   // Specify just the place data fields that you need.
   autocomplete.setFields(['place_id', 'geometry', 'name'])
-  map.controls[google.maps.ControlPosition.TOP_LEFT].push(input)
+  map.controls[google.maps.ControlPosition.TOP_CENTER].push(input)
 
   autocomplete.addListener('place_changed', () => {
     const place = autocomplete.getPlace()
@@ -160,7 +160,7 @@ function setMarkers(map, infoWindow) {
           )
           infoWindow.open(map, marker)
           map.setCenter(mapsMouseEvent.latLng)
-          map.setZoom(13)
+          map.setZoom(15)
         })
         markers.push(marker)
       })
@@ -168,6 +168,7 @@ function setMarkers(map, infoWindow) {
     .then(() => {
       // Add a marker clusterer to manage the markers.
       new MarkerClusterer(map, markers, {
+        maxZoom: 14,
         imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
       })
     })
