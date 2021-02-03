@@ -139,7 +139,6 @@ const filterController = {
   },
   filterMap: (req, res, next) => {
     const { year, month, type } = req.query
-    let markerList = []
     let monthsList = [
       '一月',
       '二月',
@@ -155,8 +154,19 @@ const filterController = {
       '十二月'
     ]
     Marker.findAll({ raw: true, nest: true }).then((markers) => {
-      const yearsList = [...new Set(markers.map((marker) => yearFilter(marker.createdAt)))]
+      let yearsList = [...new Set(markers.map((marker) => yearFilter(marker.createdTime)))]
       const typesList = [...new Set(markers.map((marker) => marker.type))]
+      if (type !== '全部') {
+        yearsList = []
+        markers.map((marker) => {
+          if (marker.type === type) {
+            yearsList.push(yearFilter(marker.createdTime))
+          }
+        })
+        console.log(yearsList)
+        yearsList = [...new Set(yearsList)]
+      }
+
       return res.render('map', {
         url: `/map/filterJson/${type}/${year}/${month}`,
         yearsList,

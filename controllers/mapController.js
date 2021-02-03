@@ -1,6 +1,7 @@
 const db = require('../models')
 const Blog = db.Blog
 const Marker = db.Marker
+const Tracker = db.Tracker
 const { monthFilter, yearFilter } = require('../public/javascript/function')
 
 const mapController = {
@@ -20,7 +21,7 @@ const mapController = {
       '十二月'
     ]
     Marker.findAll({ raw: true, nest: true }).then((markers) => {
-      const yearsList = [...new Set(markers.map((marker) => yearFilter(marker.createdAt)))]
+      const yearsList = [...new Set(markers.map((marker) => yearFilter(marker.createdTime)))]
       const typesList = [...new Set(markers.map((marker) => marker.type))]
       return res.render('map', {
         url: '/map/json',
@@ -32,10 +33,24 @@ const mapController = {
   },
   getMapJson: (req, res, next) => {
     return Marker.findAll({
+      raw: true,
+      nest: true,
       attributes: ['lat', 'lng'],
-      include: [{ model: Blog, attributes: ['location'], limit: 1 }]
+      include: [
+        { model: Blog, attributes: ['location'] },
+        { model: Tracker, attributes: ['location'] }
+      ]
     }).then((markers) => {
-      return res.json(markers)
+      const markersList = [
+        ...new Set(
+          markers.map((marker) => ({
+            lat: marker.lat,
+            lng: marker.lng,
+            location: marker.Blogs.location ? marker.Blogs.location : marker.Trackers.location
+          }))
+        )
+      ]
+      return res.json(markersList)
     })
   },
   getMapFilterJson: (req, res, next) => {
@@ -55,11 +70,19 @@ const mapController = {
       '十一月',
       '十二月'
     ]
-    Marker.findAll({ raw: true, nest: true }).then((markers) => {
+    Marker.findAll({
+      raw: true,
+      nest: true,
+      include: [
+        { model: Blog, attributes: ['location'] },
+        { model: Tracker, attributes: ['location'] }
+      ]
+    }).then((markers) => {
       Promise.all([
         markers.map((marker) => {
-          let currentYear = yearFilter(marker.createdAt).toString()
-          let currentMonth = monthsList[monthFilter(marker.createdAt)]
+          let currentYear = yearFilter(marker.createdTime).toString()
+          let currentMonth = monthsList[monthFilter(marker.createdTime)]
+          marker.location = marker.Blogs.location ? marker.Blogs.location : marker.Trackers.location
           if (type === '全部' && month === '全部' && year === '全部') {
             markerList.push(marker)
           } else if (month === '全部' && year === '全部') {
@@ -93,6 +116,15 @@ const mapController = {
           }
         })
       ])
+      markerList = [
+        ...new Set(
+          markerList.map((marker) => ({
+            lat: marker.lat,
+            lng: marker.lng,
+            location: marker.location
+          }))
+        )
+      ]
       return res.json(markerList)
     })
   }
