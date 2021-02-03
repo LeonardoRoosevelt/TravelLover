@@ -80,7 +80,9 @@
         </div>
         <a class='btn btn-success col-1' href="/trackers/{{this.id}}/edit">編輯</a>
         <form action="/trackers/{{this.id}}?_method=DELETE" method="post" style="display: inline;"
-          onsubmit="return deleteCheckAgain()" class='btn btn-danger py-4' type="submit">刪除</form>
+          onsubmit="return deleteCheckAgain()" class='p-0 col-1' type="submit">
+          <button class='btn btn-danger' style="height:100%;">刪除</button>
+        </form>
       </div>
     </li>
     {{/each}}

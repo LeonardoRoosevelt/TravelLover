@@ -30,29 +30,38 @@ const filterController = {
         blogs.map((blog) => {
           let currentYear = yearFilter(blog.createdAt).toString()
           let currentMonth = monthsList[monthFilter(blog.createdAt)]
+          blog.createdAt = dayjs(blog.createdAt).format('YYYY/MM/DD')
           if (month === '全部' && year === '全部') {
             blogList.push(blog)
           } else if (year === '全部' && month === currentMonth) {
             blogList.push(blog)
           } else if (month === '全部' && year === currentYear) {
             blogList.push(blog)
-          } else if (month === currentMonth && year === currentYear) {
-            blogList.push(blog)
           } else {
-            console.log('error')
+            if (month === currentMonth && year === currentYear) {
+              blogList.push(blog)
+            }
           }
         })
       ])
-      blogList.forEach((blog) => {
-        blog.createdAt = dayjs(blog.createdAt).format('YYYY/MM/DD')
-      })
-      return res.render('index', {
-        blogs: blogList,
-        yearsList,
-        monthsList,
-        years: year,
-        months: month
-      })
+        .then(() => {
+          if (blogList.length >= 1) {
+            return res.render('index', {
+              blogs: blogList,
+              yearsList,
+              monthsList,
+              years: year,
+              months: month
+            })
+          }
+          return res.render('index', {
+            yearsList,
+            monthsList,
+            years: year,
+            months: month
+          })
+        })
+        .catch(next)
     })
   },
   filterRecords: (req, res, next) => {
