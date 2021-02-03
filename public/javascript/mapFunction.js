@@ -6,7 +6,7 @@ function initMap() {
     zoom: 13
   })
   let infoWindow = new google.maps.InfoWindow()
-  setMarkers(map)
+  setMarkers(map, infoWindow)
 
   // click listener configures by PlaceId.
   map.addListener('click', (mapsMouseEvent) => {
@@ -20,17 +20,15 @@ function initMap() {
           let infoContent = `<div></div><span id="place-name" class="title" style="text-align: center; display:block;">${place.name}</span><br/>
            <a class="btn btn-primary" href="/blogs/createBlog/${place.geometry.location}/${place.name}">Create Blog</a><a class="btn btn-success ml-3" href="/trackers/createRecord/${place.geometry.location}/${place.name}">Create Tracker</a></div>`
           DeleteMarker(1)
-          marker = new google.maps.Marker({
+          let marker = new google.maps.Marker({
             position: place.geometry.location,
             map: map,
             id: 1,
             icon: { url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png' }
           })
           markers.push(marker)
-          infoWindow = new google.maps.InfoWindow({
-            position: mapsMouseEvent.latLng
-          })
           infoWindow.close()
+          infoWindow.setPosition(mapsMouseEvent.latLng)
           infoWindow.setContent(infoContent)
           infoWindow.open(map, marker)
           marker.addListener('click', () => {
@@ -66,16 +64,14 @@ function initMap() {
       map.setZoom(13)
     }
     DeleteMarker(1)
-    marker = new google.maps.Marker({
+    let marker = new google.maps.Marker({
       position: place.geometry.location,
       map: map,
       id: 1,
       icon: { url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png' }
     })
     markers.push(marker)
-    infoWindow = new google.maps.InfoWindow({
-      position: place.geometry.location
-    })
+    infoWindow.setPosition(place.geometry.location)
     infoWindow.close()
     infoWindow.setContent(infoContent)
     infoWindow.open(map, marker)
@@ -104,16 +100,14 @@ function initMap() {
           DeleteMarker(1)
           let infoContent = `<span id="place-name" class="title" style="text-align: center; display:block;">本地定位</span><br/>
             <a class="btn btn-primary" href="/blogs/createBlog/(${pos.lat}, ${pos.lng})">Create Blog</a><a class="btn btn-success ml-3" href="/trackers/createRecord/(${pos.lat}, ${pos.lng})">Create Tracker</a>`
-          marker = new google.maps.Marker({
+          let marker = new google.maps.Marker({
             position: pos,
             map: map,
             id: 1,
             icon: { url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png' }
           })
           markers.push(marker)
-          infoWindow = new google.maps.InfoWindow({
-            position: pos
-          })
+          infoWindow.setPosition(pos)
           infoWindow.close()
           infoWindow.setContent(infoContent)
           infoWindow.open(map, marker)
@@ -146,27 +140,25 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
   infoWindow.open(map)
 }
 
-function setMarkers(map) {
-  let infoWindow = new google.maps.InfoWindow()
+function setMarkers(map, infoWindow) {
   axios
     .get(url)
     .then((response) => {
       const locations = response.data
       locations.map((l) => {
-        marker = new google.maps.Marker({
+        let marker = new google.maps.Marker({
           position: new google.maps.LatLng(l.lat, l.lng),
           map: map
         })
         marker.addListener('click', (mapsMouseEvent) => {
-          infoWindow = new google.maps.InfoWindow({
-            position: mapsMouseEvent.latLng
-          })
-          infoWindow.close()
+          DeleteMarker(1)
+          infoWindow.close(map)
+          infoWindow.setPosition(mapsMouseEvent.latLng)
           infoWindow.setContent(
-            `<span id="place-name" class="title" style="text-align: center; display:block;">${l.Blogs[0].location}</span><br/>
-          <a class="btn btn-primary" href="/blogs/createBlog/${mapsMouseEvent.latLng}/${l.Blogs[0].location}">Create Blog</a><a class="btn btn-success ml-3" href="/trackers/createRecord/${mapsMouseEvent.latLng}/${l.Blogs[0].location}">Create Tracker</a>`
+            `<span id="place-name" class="title" style="text-align: center; display:block;">${l.location}</span><br/>
+          <a class="btn btn-primary" href="/blogs/createBlog/${mapsMouseEvent.latLng}/${l.location}">Create Blog</a><a class="btn btn-success ml-3" href="/trackers/createRecord/${mapsMouseEvent.latLng}/${l.location}">Create Tracker</a>`
           )
-          infoWindow.open(map)
+          infoWindow.open(map, marker)
           map.setCenter(mapsMouseEvent.latLng)
           map.setZoom(13)
         })
