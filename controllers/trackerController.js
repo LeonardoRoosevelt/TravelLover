@@ -62,7 +62,7 @@ const trackController = {
       return Marker.findOrCreate({
         raw: true,
         where: { lat: lat, lng: lng, type: 'record' },
-        defaults: { type: 'record' }
+        defaults: { type: 'record', createdTime: date }
       })
         .then((marker) => {
           return Tracker.create({
@@ -86,10 +86,15 @@ const trackController = {
   },
   deleteRecord: (req, res, next) => {
     const { recordId } = req.params
-    Tracker.findByPk(recordId)
+    Tracker.findByPk(recordId, { include: { model: Marker } })
       .then((record) => {
         return record.destroy().then((record) => {
-          res.redirect('/trackers')
+          if (record.MarkerId !== null) {
+            return Marker.findByPk(record.MarkerId).then((marker) => {
+              marker.destroy().then(() => res.redirect('/trackers'))
+            })
+          }
+          return res.redirect('/trackers')
         })
       })
       .catch(next)
@@ -97,10 +102,17 @@ const trackController = {
   updateRecord: (req, res, next) => {
     const { recordId } = req.params
     const { product, date, price, categoryId } = req.body
-    Tracker.findByPk(recordId)
+    Tracker.findByPk(recordId, { include: { model: Marker } })
       .then((record) => {
         return record.update({ product, date, price, CategoryId: categoryId }).then((record) => {
-          res.redirect('/trackers')
+          if (record.MarkerId !== null) {
+            return Marker.findByPk(record.MarkerId).then((marker) => {
+              marker.update({ createdTime: date }).then(() => {
+                return res.redirect('/trackers')
+              })
+            })
+          }
+          return res.redirect('/trackers')
         })
       })
       .catch(next)

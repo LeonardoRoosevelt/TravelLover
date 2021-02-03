@@ -37,7 +37,11 @@ const blogController = {
     const { title, description, location, lat, lng } = req.body
     const type = 'blog'
     if (lat !== '') {
-      return Marker.findOrCreate({ raw: true, where: { lat: lat, lng: lng, type: type } })
+      return Marker.findOrCreate({
+        raw: true,
+        where: { lat: lat, lng: lng, type: type },
+        defaults: { createdTime: new Date() }
+      })
         .then((marker) => {
           return Blog.create({
             title: title,
@@ -61,7 +65,14 @@ const blogController = {
     Blog.findByPk(blogId)
       .then((blog) => {
         return blog.destroy().then((blog) => {
-          res.redirect('/blogs')
+          if (blog.MarkerId !== null) {
+            return Marker.findByPk(blog.MarkerId).then((marker) => {
+              marker.destroy().then(() => {
+                return res.redirect('/blogs')
+              })
+            })
+          }
+          return res.redirect('/blogs')
         })
       })
       .catch(next)
@@ -73,7 +84,15 @@ const blogController = {
     Blog.findByPk(blogId)
       .then((blog) => {
         return blog.update({ title: title, description: description, location: location }).then((blog) => {
-          res.redirect('/blogs')
+          if (blog.MarkerId !== null) {
+            return Marker.findByPk(blogId.MarkerId).then((marker) => {
+              marker.update({ createdTime: new Date() }),
+                then(() => {
+                  return res.redirect('/blogs')
+                })
+            })
+          }
+          return res.redirect('/blogs')
         })
       })
       .catch(next)
