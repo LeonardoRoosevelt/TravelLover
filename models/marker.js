@@ -16,7 +16,8 @@ module.exports = (sequelize, DataTypes) => {
     {
       lat: DataTypes.STRING,
       lng: DataTypes.STRING,
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      createdTime: DataTypes.DATE
     },
     {
       sequelize,
