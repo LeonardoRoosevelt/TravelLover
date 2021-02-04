@@ -22,6 +22,16 @@ const authController = {
       }
     })
       .then(([user, created]) => {
+        if (!created) {
+          if (user.account === account) {
+            req.flash('error_messages', 'This account already exists.')
+            return res.redirect('/signup')
+          }
+          if (user.email === email) {
+            req.flash('error_messages', 'This email already exists.')
+            return res.redirect('/signup')
+          }
+        }
         return res.redirect('/signin')
       })
       .catch(next)
@@ -31,10 +41,12 @@ const authController = {
   },
 
   signIn: (req, res) => {
+    req.flash('success_messages', '成功登入！')
     res.redirect('/blogs')
   },
 
   logout: (req, res) => {
+    req.flash('success_messages', '登出成功！')
     req.logout()
     res.redirect('/signin')
   }
