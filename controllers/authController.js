@@ -3,6 +3,9 @@ const db = require('../models')
 const User = db.User
 
 const authController = {
+  homePage: (req, res, next) => {
+    return res.render('homePage')
+  },
   signUpPage: (req, res) => {
     return res.render('signup')
   },

@@ -15,7 +15,7 @@
   <main role="main">
     <div class="album py-5 bg-light">
       <div class="container">
-        {{!-- Navbar --}}
+        {{!-- Navbar --}}{{#if isAuthenticated}}
         <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
           <a class="navbar-brand" href="/">Travellover</a>
           <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
@@ -33,6 +33,7 @@
             </div>
           </div>
         </nav>
+        {{/if}}
         <br />
         {{>message}}
         {{{body}}}
