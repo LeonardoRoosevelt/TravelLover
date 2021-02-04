@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
 const flash = require('connect-flash')
 const session = require('express-session')
+const passport = require('./config/passport')
 const routes = require('./routes')
 
 const app = express()
@@ -15,6 +16,8 @@ app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 app.use(session({ secret: 'secret', resave: false, saveUninitialized: false }))
+app.use(passport.initialize()) // 初始化 Passport 模組
+app.use(passport.session())
 app.use(flash())
 
 app.use((req, res, next) => {
