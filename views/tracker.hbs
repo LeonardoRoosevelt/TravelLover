@@ -18,7 +18,7 @@
 <div class="title">
   <h1>Travellover Tracker</h1>
 </div>
-<div class="container">
+<div class="containerCord">
   <div class="row d-flex justify-content-center m-3">
     <div class="filterForm">
       <form method="GET" action='/trackers/filters'>
@@ -81,7 +81,7 @@
         <a class='btn btn-success col-1' href="/trackers/{{this.id}}/edit">編輯</a>
         <form action="/trackers/{{this.id}}?_method=DELETE" method="post" style="display: inline;"
           onsubmit="return deleteCheckAgain()" class='p-0 col-1' type="submit">
-          <button class='btn btn-danger' style="height:100%;">刪除</button>
+          <button class='btn btn-danger btnFeature' style="height:100%;">刪除</button>
         </form>
       </div>
     </li>

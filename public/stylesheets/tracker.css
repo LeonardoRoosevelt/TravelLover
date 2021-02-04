@@ -1,4 +1,4 @@
-.container {
+.containerCord {
   max-width: 820px;
   margin: 0 auto;
 }
@@ -67,7 +67,7 @@ h1 {
   margin: 5px;
 }
 
-.btn {
+.btnFeature {
   display: flex;
   justify-content: center;
   align-items: center;
