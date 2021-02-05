@@ -1,36 +1,38 @@
-{{#if blog}}
-<form action="/blogs/{{blog.id}}?_method=PUT" method="POST">
-  {{else}}
-  <form action="/blogs" method="POST">
-    {{/if}}
-    <div class="form-group">
-      <label for="title">Title</label>
-      <input type="text" class="form-control" name="title" id="title" placeholder="Enter title" value="{{blog.title}}"
-        required>
-    </div>
-    <div class="form-group">
-      <label for="description">Description</label>
-      <textarea class="form-control" id="description" name="description" rows="3">{{blog.description}}</textarea>
-    </div>
-    <div class="form-group">
-      <label for="location">location</label>
-      {{#if blog}}
-      <input type="text" class="form-control" id="location" name="location" placeholder="Enter location"
-        value="{{blog.location}}">
-      </input>
-      {{else}}
-      <input type="text" class="form-control" id="location" name="location" placeholder="Enter location"
-        value="{{locationName}}">
-      </input>
+<div class="body">
+  {{#if blog}}
+  <form action="/blogs/{{blog.id}}?_method=PUT" method="POST">
+    {{else}}
+    <form action="/blogs" method="POST">
       {{/if}}
-    </div>
-    <div class="form-group" style="display:none;">
-      <label>lat&lng</label>
-      <input type="text" class="form-control" name="lat" id="lat" placeholder="Enter lat" value="{{lat}}">
-      <input type="text" class="form-control" name="lng" id="lng" placeholder="Enter lng" value="{{lng}}">
-    </div>
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" class="form-control" name="title" id="title" placeholder="Enter title" value="{{blog.title}}"
+          required>
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea class="form-control" id="description" name="description" rows="3">{{blog.description}}</textarea>
+      </div>
+      <div class="form-group">
+        <label for="location">location</label>
+        {{#if blog}}
+        <input type="text" class="form-control" id="location" name="location" placeholder="Enter location"
+          value="{{blog.location}}">
+        </input>
+        {{else}}
+        <input type="text" class="form-control" id="location" name="location" placeholder="Enter location"
+          value="{{locationName}}">
+        </input>
+        {{/if}}
+      </div>
+      <div class="form-group" style="display:none;">
+        <label>lat&lng</label>
+        <input type="text" class="form-control" name="lat" id="lat" placeholder="Enter lat" value="{{lat}}">
+        <input type="text" class="form-control" name="lng" id="lng" placeholder="Enter lng" value="{{lng}}">
+      </div>
 
 
-    <button type="submit" class="btn btn-primary">Submit</button>
-    <a href='/blogs' class="btn btn-danger">Back</a>
-  </form>
+      <button type="submit" class="btn btn-primary">Submit</button>
+      <a href='/blogs' class="btn btn-danger">Back</a>
+    </form>
+</div>

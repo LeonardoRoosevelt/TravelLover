@@ -5,6 +5,7 @@
 <script src="https://unpkg.com/@googlemaps/markerclustererplus/dist/index.min.js"></script>
 <link rel="stylesheet" href="/stylesheets/map.css">
 
+
 <ul class="nav nav-tabs">
   <li class="nav-item">
     <a class="nav-link " href="/blogs">Blog</a>
@@ -20,50 +21,48 @@
   </li>
 </ul>
 <br>
-<h1>紀錄地圖</h1>
-<div class="filterForm d-flex justify-content-center mb-3">
-  <form method="GET" action='/map/filters'>
-    <div class="filters row mr-2">
-      <div class="filterType">
-        <select class="btn btn-secondary dropdown-toggle" name="type" onchange="submit()">
-          {{#if types}}<option>{{types}}</option>{{/if}}
-          <option class="dropdown-item" value="全部">全部</option>
-          {{#each typesList}}
-          <option class="dropdown-item" value="{{this}}">{{this}}</option>
-          {{/each}}
-        </select>
+<div class="body">
+  <h1>紀錄地圖</h1>
+  <div class="filterForm d-flex justify-content-center mb-3">
+    <form method="GET" action='/map/filters'>
+      <div class="filters row mr-2">
+        <div class="filterType">
+          <select class="btn btn-secondary dropdown-toggle" name="type" onchange="submit()">
+            {{#if types}}<option>{{types}}</option>{{/if}}
+            <option class="dropdown-item" value="全部">全部</option>
+            {{#each typesList}}
+            <option class="dropdown-item" value="{{this}}">{{this}}</option>
+            {{/each}}
+          </select>
+        </div>
+        <div class="filterYear ml-3">
+          <select class="btn btn-secondary dropdown-toggle" name="year" onchange="submit()">
+            {{#if years}}<option>{{years}}</option>{{/if}}
+            <option class="dropdown-item" value="全部">全部</option>
+            {{#each yearsList}}
+            <option class="dropdown-item" value="{{this}}">{{this}}</option>
+            {{/each}}
+          </select>
+        </div>
+        <div class="filterMonth ml-3">
+          <select class="btn btn-secondary dropdown-toggle" name="month" onchange="submit()">
+            {{#if months}}<option>{{months}}</option>{{/if}}
+            <option class="dropdown-item" value="全部">全部</option>
+            {{#each monthsList}}
+            <option class="dropdown-item" value="{{this}}">{{this}}</option>
+            {{/each}}
+          </select>
+        </div>
       </div>
-      <div class="filterYear ml-3">
-        <select class="btn btn-secondary dropdown-toggle" name="year" onchange="submit()">
-          {{#if years}}<option>{{years}}</option>{{/if}}
-          <option class="dropdown-item" value="全部">全部</option>
-          {{#each yearsList}}
-          <option class="dropdown-item" value="{{this}}">{{this}}</option>
-          {{/each}}
-        </select>
-      </div>
-      <div class="filterMonth ml-3">
-        <select class="btn btn-secondary dropdown-toggle" name="month" onchange="submit()">
-          {{#if months}}<option>{{months}}</option>{{/if}}
-          <option class="dropdown-item" value="全部">全部</option>
-          {{#each monthsList}}
-          <option class="dropdown-item" value="{{this}}">{{this}}</option>
-          {{/each}}
-        </select>
-      </div>
-    </div>
-  </form>
+    </form>
+  </div>
+  <button class="btn btn-default mt-1 mr-1" id="geoBtn"></button>
+  <div style="display: none;">
+    <input id="pac-input" class="controls mt-1" type="text" placeholder="Enter a location" />
+  </div>
+  <i style="display: none" id="axiosUrl" class="axiosUrl" type="text">{{url}}</i>
+  <div id="map"></div>
 </div>
-
-<button class="btn btn-default mt-1 mr-1" id="geoBtn"></button>
-
-<div style="display: none;">
-  <input id="pac-input" class="controls mt-1" type="text" placeholder="Enter a location" />
-</div>
-
-<i style="display: none" id="axiosUrl" class="axiosUrl" type="text">{{url}}</i>
-
-<div id="map"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="/javascript/mapFunction.js"></script>
