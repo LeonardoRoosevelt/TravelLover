@@ -1,0 +1,9 @@
+body {
+  background-image: url('../background/Earth.png');
+  background-size: cover;
+}
+
+.body {
+  background-color: rgba(216, 211, 211, 0.8);
+  border-radius: 3px;
+}

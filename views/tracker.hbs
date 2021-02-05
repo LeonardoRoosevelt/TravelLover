@@ -78,7 +78,7 @@
         <div class="price col-5">
           <i class='price'>{{this.price}}元</i>
         </div>
-        <a class='btn btn-success col-1' href="/trackers/{{this.id}}/edit">編輯</a>
+        <a class='btn btn-success btnFeature col-1' href="/trackers/{{this.id}}/edit">編輯</a>
         <form action="/trackers/{{this.id}}?_method=DELETE" method="post" style="display: inline;"
           onsubmit="return deleteCheckAgain()" class='p-0 col-1' type="submit">
           <button class='btn btn-danger btnFeature' style="height:100%;">刪除</button>
