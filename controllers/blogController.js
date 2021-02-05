@@ -26,7 +26,7 @@ const blogController = {
         blogs.forEach((blog) => {
           blog.createdAt = dayjs(blog.createdAt).format('YYYY-MM-DD')
         })
-        return res.render('index', { blogs, yearsList, monthsList })
+        return res.render('blogs', { blogs, yearsList, monthsList })
       })
       .catch(next)
   },
