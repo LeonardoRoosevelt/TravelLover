@@ -10,7 +10,7 @@ const routes = require('./routes')
 const app = express()
 const port = 3000
 
-app.engine('hbs', exphbs({ defaultLayout: 'main', extname: 'hbs' }))
+app.engine('hbs', exphbs({ defaultLayout: 'main', helpers: require('./config/handlebars-helpers'), extname: 'hbs' }))
 app.set('view engine', 'hbs')
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -19,6 +19,10 @@ app.use(session({ secret: 'secret', resave: false, saveUninitialized: false }))
 app.use(passport.initialize()) // 初始化 Passport 模組
 app.use(passport.session())
 app.use(flash())
+
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
 
 app.use((req, res, next) => {
   res.locals.success_messages = req.flash('success_messages')
