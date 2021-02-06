@@ -85,11 +85,10 @@ const blogController = {
       .then((blog) => {
         return blog.update({ title: title, description: description, location: location }).then((blog) => {
           if (blog.MarkerId !== null) {
-            return Marker.findByPk(blogId.MarkerId).then((marker) => {
-              marker.update({ createdTime: new Date() }),
-                then(() => {
-                  return res.redirect('/blogs')
-                })
+            return Marker.findByPk(blog.MarkerId).then((marker) => {
+              marker.update({ createdTime: new Date() }).then(() => {
+                return res.redirect('/blogs')
+              })
             })
           }
           return res.redirect('/blogs')
