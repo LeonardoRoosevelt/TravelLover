@@ -1,4 +1,10 @@
-<div class="body">
+<div class="homeBtn">
+  {{#if user}}
+  <a href="/blogs" class="btn btn-secondary">Blog</a>
+  <a href="/map" class="btn btn-success">Map</a>
+  <a href="/trackers" class="btn btn-info">Tracker</a>
+  {{else}}
   <a href="/signin" class="btn btn-primary">Signin</a>
   <a href="/signup" class="btn btn-success">Signup</a>
+  {{/if}}
 </div>

@@ -13,39 +13,41 @@
   </li>
 </ul>
 <br>
-<div class="body">
-  <div class="filterForm">
-    <form method="GET" action='/blogs/filters'>
-      <div class="formData row" style='justify-content:space-between;'>
-        <div class="filter row ml-3">
-          <div class="filterYear ml-3">
-            <select class="btn btn-secondary dropdown-toggle" name="year" onchange="submit()">
-              {{#if years}}<option>{{years}}</option>{{/if}}
-              <option class="dropdown-item" value="全部">全部</option>
-              {{#each yearsList}}
-              <option class="dropdown-item" value="{{this}}">{{this}}</option>
-              {{/each}}
-            </select>
-          </div>
-          <div class="filterMonth ml-3">
-            <select class="btn btn-secondary dropdown-toggle" name="month" onchange="submit()">
-              {{#if months}}<option>{{months}}</option>{{/if}}
-              <option class="dropdown-item" value="全部">全部</option>
-              {{#each monthsList}}
-              <option class="dropdown-item" value="{{this}}">{{this}}</option>
-              {{/each}}
-            </select>
-          </div>
+<h1 class="page-title">TravelLover Blog</h1>
+<div class="filterForm mb-2">
+  <form method="GET" action='/blogs/filters'>
+    <div class="formData row" style='justify-content:space-between;'>
+      <div class="filter row ml-3">
+        <div class="filterYear ml-3">
+          <select class="btn btn-info dropdown-toggle" name="year" onchange="submit()">
+            {{#if years}}<option>{{years}}</option>{{/if}}
+            <option class="dropdown-item" value="全部">全部</option>
+            {{#each yearsList}}
+            <option class="dropdown-item" value="{{this}}">{{this}}</option>
+            {{/each}}
+          </select>
         </div>
-        <div class="feature"><a class="btn btn-primary mr-3" href="/blogs/createBlog">Create</a>
+        <div class="filterMonth ml-3">
+          <select class="btn btn-info dropdown-toggle" name="month" onchange="submit()">
+            {{#if months}}<option>{{months}}</option>{{/if}}
+            <option class="dropdown-item" value="全部">全部</option>
+            {{#each monthsList}}
+            <option class="dropdown-item" value="{{this}}">{{this}}</option>
+            {{/each}}
+          </select>
         </div>
       </div>
-    </form>
-  </div>
-  {{#each blogs}}
+      <div class="feature"><a class="btn btn-primary mr-3" href="/blogs/createBlog">Create</a>
+      </div>
+    </div>
+  </form>
+</div>
+
+{{#each blogs}}
+<div class="body">
   <div class="creative_taital">
     <div class="dropdown" style="text-align:right;">
-      <i class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+      <i class="dropdown-toggle btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
         aria-expanded="false">
       </i>
       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
