@@ -14,5 +14,6 @@ router.post(
     failureRedirect: '/signin'
   })
 )
+router.get('/logout', authController.logout)
 
 module.exports = router
