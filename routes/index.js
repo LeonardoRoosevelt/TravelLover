@@ -13,5 +13,8 @@ router.use('/trackers', authenticator, tracker)
 router.use('/map', authenticator, map)
 router.use('/users', authenticator, user)
 router.use('/', auth)
+router.use((req, res, next) => {
+  res.status(404).render('error', { user: null })
+})
 
 module.exports = router
