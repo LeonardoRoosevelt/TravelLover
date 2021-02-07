@@ -98,7 +98,7 @@ const trackController = {
     const { recordId } = req.params
     Tracker.findByPk(recordId, { include: { model: Marker } })
       .then((record) => {
-        if (userId !== record.UserId) {
+        if (!record || userId !== record.UserId) {
           req.flash('error_messages', 'permission denied')
           return res.redirect('..')
         }
@@ -119,7 +119,7 @@ const trackController = {
     const { product, date, price, categoryId } = req.body
     Tracker.findByPk(recordId, { include: { model: Marker } })
       .then((record) => {
-        if (userId !== record.UserId) {
+        if (!record || userId !== record.UserId) {
           req.flash('error_messages', 'permission denied')
           return res.redirect('..')
         }
@@ -141,7 +141,7 @@ const trackController = {
     const { recordId } = req.params
     Tracker.findByPk(recordId, { raw: true, nest: true, include: { model: Category } })
       .then((record) => {
-        if (userId !== record.UserId) {
+        if (!record || userId !== record.UserId) {
           req.flash('error_messages', 'permission denied')
           return res.redirect('..')
         }

@@ -68,7 +68,7 @@ const blogController = {
     const { blogId } = req.params
     Blog.findByPk(blogId)
       .then((blog) => {
-        if (userId !== blog.UserId) {
+        if (!blog || userId !== blog.UserId) {
           req.flash('error_messages', 'permission denied')
           return res.redirect('..')
         }
@@ -92,10 +92,11 @@ const blogController = {
 
     Blog.findByPk(blogId)
       .then((blog) => {
-        if (userId !== blog.UserId) {
+        if (!blog || userId !== blog.UserId) {
           req.flash('error_messages', 'permission denied')
           return res.redirect('..')
         }
+
         return blog.update({ title: title, description: description, location: location }).then((blog) => {
           if (blog.MarkerId !== null) {
             return Marker.findByPk(blog.MarkerId).then((marker) => {
@@ -113,7 +114,7 @@ const blogController = {
     const userId = req.user.id
     const { blogId } = req.params
     Blog.findByPk(blogId, { raw: true }).then((blog) => {
-      if (userId !== blog.UserId) {
+      if (!blog || userId !== blog.UserId) {
         req.flash('error_messages', 'permission denied')
         return res.redirect('..')
       }
