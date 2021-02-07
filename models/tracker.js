@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Tracker.belongsTo(models.Category)
       Tracker.belongsTo(models.Marker)
+      Tracker.belongsTo(models.User)
     }
   }
   Tracker.init(
@@ -17,8 +18,9 @@ module.exports = (sequelize, DataTypes) => {
       product: DataTypes.STRING,
       date: DataTypes.DATE,
       price: DataTypes.INTEGER,
+      location: DataTypes.STRING,
       CategoryId: DataTypes.INTEGER,
-      location: DataTypes.STRING
+      UserId: DataTypes.INTEGER
     },
     {
       sequelize,

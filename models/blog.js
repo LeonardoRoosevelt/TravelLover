@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Blog.belongsTo(models.Marker)
+      Blog.belongsTo(models.User)
     }
   }
   Blog.init(
@@ -16,7 +17,8 @@ module.exports = (sequelize, DataTypes) => {
       title: DataTypes.STRING,
       description: DataTypes.TEXT,
       album: DataTypes.STRING,
-      location: DataTypes.STRING
+      location: DataTypes.STRING,
+      UserId: DataTypes.INTEGER
     },
     {
       sequelize,

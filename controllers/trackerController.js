@@ -7,6 +7,7 @@ const { yearFilter } = require('../public/javascript/function')
 
 const trackController = {
   getRecord: (req, res, next) => {
+    const userId = req.user.id
     let totalAmount = 0
     let categoriesList = []
     let yearsList = []
@@ -24,7 +25,13 @@ const trackController = {
       '十一月',
       '十二月'
     ]
-    Tracker.findAll({ raw: true, nest: true, order: [['date', 'ASC']], include: [{ model: Category }] })
+    Tracker.findAll({
+      raw: true,
+      nest: true,
+      order: [['date', 'ASC']],
+      where: { UserId: userId },
+      include: [{ model: Category }]
+    })
       .then((records) => {
         yearsList = [...new Set(records.map((record) => yearFilter(record.date)))]
         totalAmount = records.map((record) => record.price).reduce((a, b) => a + b, 0)
@@ -56,12 +63,13 @@ const trackController = {
     })
   },
   createRecord: (req, res, next) => {
+    const userId = req.user.id
     const { product, date, price, categoryId, location, lat, lng } = req.body
     console.log(lat)
     if (lat !== '') {
       return Marker.findOrCreate({
         raw: true,
-        where: { lat: lat, lng: lng, type: 'record' },
+        where: { lat: lat, lng: lng, type: 'record', UserId: userId },
         defaults: { type: 'record', createdTime: date }
       })
         .then((marker) => {
@@ -71,23 +79,29 @@ const trackController = {
             price,
             CategoryId: categoryId,
             location,
-            MarkerId: marker[0].id
+            MarkerId: marker[0].id,
+            UserId: userId
           }).then((record) => {
             return res.redirect('/trackers')
           })
         })
         .catch(next)
     }
-    return Tracker.create({ product, date, price, CategoryId: categoryId, location })
+    return Tracker.create({ product, date, price, CategoryId: categoryId, location, UserId: userId })
       .then((record) => {
         return res.redirect('/trackers')
       })
       .catch(next)
   },
   deleteRecord: (req, res, next) => {
+    const userId = req.user.id
     const { recordId } = req.params
     Tracker.findByPk(recordId, { include: { model: Marker } })
       .then((record) => {
+        if (userId !== record.UserId) {
+          req.flash('error_messages', 'permission denied')
+          return res.redirect('..')
+        }
         return record.destroy().then((record) => {
           if (record.MarkerId !== null) {
             return Marker.findByPk(record.MarkerId).then((marker) => {
@@ -100,10 +114,15 @@ const trackController = {
       .catch(next)
   },
   updateRecord: (req, res, next) => {
+    const userId = req.user.id
     const { recordId } = req.params
     const { product, date, price, categoryId } = req.body
     Tracker.findByPk(recordId, { include: { model: Marker } })
       .then((record) => {
+        if (userId !== record.UserId) {
+          req.flash('error_messages', 'permission denied')
+          return res.redirect('..')
+        }
         return record.update({ product, date, price, CategoryId: categoryId }).then((record) => {
           if (record.MarkerId !== null) {
             return Marker.findByPk(record.MarkerId).then((marker) => {
@@ -118,9 +137,14 @@ const trackController = {
       .catch(next)
   },
   updateRecordPage: (req, res, next) => {
+    const userId = req.user.id
     const { recordId } = req.params
     Tracker.findByPk(recordId, { raw: true, nest: true, include: { model: Category } })
       .then((record) => {
+        if (userId !== record.UserId) {
+          req.flash('error_messages', 'permission denied')
+          return res.redirect('..')
+        }
         categoryName = record.Category.category
         record.date = record.date.toISOString().slice(0, 10)
         return Category.findAll({ raw: true }).then((categories) => {

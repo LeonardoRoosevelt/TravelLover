@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Marker.hasMany(models.Blog)
       Marker.hasMany(models.Tracker)
+      Marker.belongsTo(models.User)
     }
   }
   Marker.init(
@@ -17,7 +18,8 @@ module.exports = (sequelize, DataTypes) => {
       lat: DataTypes.STRING,
       lng: DataTypes.STRING,
       type: DataTypes.STRING,
-      createdTime: DataTypes.DATE
+      createdTime: DataTypes.DATE,
+      UserId: DataTypes.INTEGER
     },
     {
       sequelize,

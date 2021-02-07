@@ -6,6 +6,7 @@ const { monthFilter, yearFilter } = require('../public/javascript/function')
 
 const mapController = {
   getMap: (req, res, next) => {
+    const userId = req.user.id
     let monthsList = [
       '一月',
       '二月',
@@ -20,7 +21,7 @@ const mapController = {
       '十一月',
       '十二月'
     ]
-    Marker.findAll({ raw: true, nest: true }).then((markers) => {
+    Marker.findAll({ raw: true, nest: true, where: { UserId: userId } }).then((markers) => {
       const yearsList = [...new Set(markers.map((marker) => yearFilter(marker.createdTime)))]
       const typesList = [...new Set(markers.map((marker) => marker.type))]
       return res.render('map', {
@@ -32,9 +33,11 @@ const mapController = {
     })
   },
   getMapJson: (req, res, next) => {
+    const userId = req.user.id
     return Marker.findAll({
       raw: true,
       nest: true,
+      where: { UserId: userId },
       attributes: ['lat', 'lng'],
       include: [
         { model: Blog, attributes: ['location'] },
@@ -54,6 +57,7 @@ const mapController = {
     })
   },
   getMapFilterJson: (req, res, next) => {
+    const userId = req.user.id
     const { year, month, type } = req.params
     let markerList = []
     let monthsList = [
@@ -73,6 +77,7 @@ const mapController = {
     Marker.findAll({
       raw: true,
       nest: true,
+      where: { UserId: userId },
       include: [
         { model: Blog, attributes: ['location'] },
         { model: Tracker, attributes: ['location'] }
