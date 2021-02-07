@@ -46,7 +46,7 @@ const filterController = {
       ])
         .then(() => {
           if (blogList.length >= 1) {
-            return res.render('index', {
+            return res.render('blogs', {
               blogs: blogList,
               yearsList,
               monthsList,
@@ -54,7 +54,7 @@ const filterController = {
               months: month
             })
           }
-          return res.render('index', {
+          return res.render('blogs', {
             yearsList,
             monthsList,
             years: year,
