@@ -2,15 +2,16 @@ const express = require('express')
 const router = express.Router()
 const passport = require('passport')
 const authController = require('../../controllers/authController')
+const { authenticated } = require('../../middleware/auth')
 
+router.get('/signup', authenticated, authController.signUpPage)
+router.get('/signin', authenticated, authController.signInPage)
 router.get('/', authController.homePage)
-router.get('/signup', authController.signUpPage)
 router.post('/signup', authController.signUp)
-router.get('/signin', authController.signInPage)
 router.post(
   '/signin',
   passport.authenticate('local', {
-    successRedirect: '/blogs',
+    successRedirect: '/',
     failureRedirect: '/signin'
   })
 )
