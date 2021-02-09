@@ -5,7 +5,7 @@ const Marker = db.Marker
 const { yearFilter } = require('../public/javascript/function')
 
 const blogController = {
-  getBlog: (req, res, next) => {
+  getBlogs: (req, res, next) => {
     const userId = req.user.id
     const monthsList = [
       '一月',
@@ -31,6 +31,16 @@ const blogController = {
         })
 
         return res.render('blogs', { blogs, yearsList, monthsList })
+      })
+      .catch(next)
+  },
+  getBlog: (req, res, next) => {
+    const userId = req.user.id
+    const blogId = req.params.blogId
+    Blog.findByPk(blogId, { raw: true, where: { UserId: userId } })
+      .then((blog) => {
+        blog.createdAt = dayjs(blog.createdAt).format('YYYY-MM-DD')
+        return res.render('blog', { blog })
       })
       .catch(next)
   },
