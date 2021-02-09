@@ -26,7 +26,10 @@ const blogController = {
         const yearsList = [...new Set(blogs.map((blog) => yearFilter(blog.createdAt)))]
         blogs.forEach((blog) => {
           blog.createdAt = dayjs(blog.createdAt).format('YYYY-MM-DD')
+          blog.description =
+            blog.description.length < 50 ? blog.description : blog.description.substring(0, 50) + ' ......'
         })
+
         return res.render('blogs', { blogs, yearsList, monthsList })
       })
       .catch(next)
