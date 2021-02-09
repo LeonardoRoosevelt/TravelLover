@@ -14,20 +14,17 @@ const adminController = {
       where: { isAdmin: false },
       attributes: {
         include: [
-          [sequelize.fn('COUNT', sequelize.col('Blogs.UserId')), 'totalBlog'],
-          [sequelize.fn('COUNT', sequelize.col('Markers.UserId')), 'totalMarker'],
-          [sequelize.fn('SUM', sequelize.col('Trackers.Price')), 'totalAmount']
+          [sequelize.literal('(SELECT COUNT(*) FROM Blogs WHERE Blogs.UserId = User.id)'), 'totalBlog'],
+          [sequelize.literal('(SELECT COUNT(*) FROM Markers WHERE Markers.UserId = User.id)'), 'totalMarker'],
+          [
+            sequelize.literal('(SELECT SUM(Trackers.Price) FROM Trackers WHERE Trackers.UserId = User.id)'),
+            'totalAmount'
+          ]
         ]
-      },
-      include: [
-        { model: Blog, attributes: [] },
-        { model: Tracker, attributes: [] },
-        { model: Marker, attributes: [] }
-      ],
-      group: ['User.id']
+      }
     })
       .then((users) => {
-        users.forEach((user) => {
+        users.map((user) => {
           user.totalAmount = !user.totalAmount ? 0 : user.totalAmount
         })
         return res.render('./admin/users', { users })
@@ -58,7 +55,6 @@ const adminController = {
     })
   },
   getBlogs: (req, res, next) => {},
-  getBlog: (req, res, next) => {},
   deleteBlog: (req, res, next) => {},
   getRecords: (req, res, next) => {},
   deleteRecord: (req, res, next) => {},
