@@ -1,0 +1,52 @@
+<div class="body">
+  <h1 class="page-title">TravelLover後台</h1>
+
+  <ul class="nav nav-tabs">
+    <li class="nav-item bg-dark">
+      <a class="nav-link active" href="/admin/blogs">Blogs</a>
+    </li>
+    <li class="nav-item bg-dark">
+      <a class="nav-link" style='color:white;' href="/admin/markers">Markers</a>
+    </li>
+    <li class="nav-item bg-dark">
+      <a class="nav-link" style='color:white;' href="/admin/trackers">Trackers</a>
+    </li>
+  </ul>
+  <br />
+  <br />
+
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col" class='t1-border'>#</th>
+        <th scope="col" class='t1-border'>User</th>
+        <th scope="col" class='t1-border'>Title</th>
+        <th scope="col" class='t1-border'>Description</th>
+        <th scope="col" class='t1-border'>CreatedTime</th>
+        <th scope="col" class='t1-border'>Location</th>
+        <th scope="col">#</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each blogs}}
+      <tr>
+        <th scope="row" class='t2-border'>{{this.id}}</th>
+        <td class='t2-border'>{{this.User.account}}</td>
+        <td class='t2-border'>{{this.title}}</td>
+        <td class='t2-border'>{{this.description}}</td>
+        <td class='t2-border'>{{this.createdAt}}</td>
+        <td class='t2-border'>{{this.location}}</td>
+        <td>
+          <form action="/admin/{{this.User.id}}/blogs/{{this.id}}?_method=DELETE" method="POST" style="display:inline;"
+            onsubmit="return deleteCheckAgain()">
+            <button type="submit" class="btn btn-danger" style="display:inline;">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
+<div class="text-center mt-2">
+  <a class="btn btn-danger pull-center" href="/admin">回上一頁</a>
+</div>

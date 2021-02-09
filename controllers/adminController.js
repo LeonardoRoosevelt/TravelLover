@@ -54,8 +54,39 @@ const adminController = {
       return res.redirect('back')
     })
   },
-  getBlogs: (req, res, next) => {},
-  deleteBlog: (req, res, next) => {},
+  getBlogs: (req, res, next) => {
+    const { userId } = req.params
+    return Blog.findAll({
+      raw: true,
+      nest: true,
+      where: { UserId: userId },
+      include: { model: User, attributes: ['id', 'account'] }
+    })
+      .then((blogs) => {
+        blogs.forEach((blog) => {
+          blog.createdAt = dayjs(blog.createdAt).format('YYYY-MM-DD')
+          blog.description =
+            blog.description.length < 10 ? blog.description : blog.description.substring(0, 10) + ' ......'
+        })
+        return res.render('./admin/blogs', { blogs })
+      })
+      .catch(next)
+  },
+  deleteBlog: (req, res, next) => {
+    const { userId, blogId } = req.params
+    Blog.findByPk(blogId, { where: { UserId: userId } })
+      .then((blog) => {
+        if (blog.MarkerId !== null) {
+          blog.destroy()
+          return Marker.findByPk(blog.MarkerId).then((marker) => {
+            return marker.destroy()
+          })
+        }
+        return blog.destroy()
+      })
+      .then(() => res.redirect('back'))
+      .catch(next)
+  },
   getRecords: (req, res, next) => {},
   deleteRecord: (req, res, next) => {},
   getCategories: (req, res, next) => {},
