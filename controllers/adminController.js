@@ -27,12 +27,33 @@ const adminController = {
       group: ['User.id']
     })
       .then((users) => {
-        console.log(users)
         return res.render('./admin/users', { users })
       })
       .catch(next)
   },
-  deleteUser: (req, res, next) => {},
+  deleteUser: (req, res, next) => {
+    const { userId } = req.params
+    Promise.all([
+      User.findByPk(userId).then((user) => user.destroy()),
+      Blog.findAll({ where: { UserId: userId } }).then((blogs) => {
+        blogs.forEach((blog) => {
+          blog.destroy()
+        })
+      }),
+      Marker.findAll({ where: { UserId: userId } }).then((markers) => {
+        markers.forEach((marker) => {
+          marker.destroy()
+        })
+      }),
+      Tracker.findAll({ where: { UserId: userId } }).then((records) => {
+        records.forEach((record) => {
+          record.destroy()
+        })
+      })
+    ]).then(() => {
+      return res.redirect('back')
+    })
+  },
   getBlogs: (req, res, next) => {},
   getBlog: (req, res, next) => {},
   deleteBlog: (req, res, next) => {},

@@ -24,7 +24,7 @@
         <td class='t2-border'><a href='admin/{{this.id}}/trackers'>{{this.totalAmount}}</a></td>
         <td class='t2-border'><a href='admin/{{this.id}}/markers'>{{this.totalMarker}}</a></td>
         <td>
-          <form action="/admin/blogs/{{this.id}}?_method=DELETE" method="POST" style="display:inline;"
+          <form action="/admin/{{this.id}}?_method=DELETE" method="POST" style="display:inline;"
             onsubmit="return deleteCheckAgain()">
             <button type="submit" class="btn btn-danger" style="display:inline;">Delete</button>
           </form>
