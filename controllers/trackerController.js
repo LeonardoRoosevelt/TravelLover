@@ -69,7 +69,7 @@ const trackController = {
     if (lat !== '') {
       return Marker.findOrCreate({
         raw: true,
-        where: { lat: lat, lng: lng, type: 'record', UserId: userId },
+        where: { lat: lat, lng: lng, type: 'record', UserId: userId, createdAt: new Date() },
         defaults: { type: 'record', createdTime: date }
       })
         .then((marker) => {

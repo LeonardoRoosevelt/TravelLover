@@ -54,7 +54,7 @@ const blogController = {
     if (lat !== '') {
       return Marker.findOrCreate({
         raw: true,
-        where: { lat: lat, lng: lng, type: type, UserId: userId },
+        where: { lat: lat, lng: lng, type: type, UserId: userId, createdTime: new Date() },
         defaults: { createdTime: new Date() }
       })
         .then((marker) => {
