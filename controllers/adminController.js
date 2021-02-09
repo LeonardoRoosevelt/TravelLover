@@ -27,6 +27,9 @@ const adminController = {
       group: ['User.id']
     })
       .then((users) => {
+        users.forEach((user) => {
+          user.totalAmount = !user.totalAmount ? 0 : user.totalAmount
+        })
         return res.render('./admin/users', { users })
       })
       .catch(next)
