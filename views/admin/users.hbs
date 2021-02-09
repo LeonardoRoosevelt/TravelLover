@@ -1,0 +1,36 @@
+<div class="body">
+  <h1 class="page-title">TravelLover後台</h1>
+  <br />
+  <br />
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col" class='t1-border'>#</th>
+        <th scope="col" class='t1-border'>User</th>
+        <th scope="col" class='t1-border'>Role</th>
+        <th scope="col" class='t1-border'>Blogs</th>
+        <th scope="col" class='t1-border'>Trackers</th>
+        <th scope="col" class='t1-border'>Markers</th>
+        <th scope="col">#</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each users}}
+      <tr>
+        <th scope="row" class='t2-border'>{{this.id}}</th>
+        <td class='t2-border'>{{this.account}}</td>
+        <td class='t2-border'> User</td>
+        <td class='t2-border'><a href='admin/{{this.id}}/blogs'>{{this.totalBlog}}</a></td>
+        <td class='t2-border'><a href='admin/{{this.id}}/trackers'>{{this.totalAmount}}</a></td>
+        <td class='t2-border'><a href='admin/{{this.id}}/markers'>{{this.totalMarker}}</a></td>
+        <td>
+          <form action="/admin/blogs/{{this.id}}?_method=DELETE" method="POST" style="display:inline;"
+            onsubmit="return deleteCheckAgain()">
+            <button type="submit" class="btn btn-danger" style="display:inline;">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>

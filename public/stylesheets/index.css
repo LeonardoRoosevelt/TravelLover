@@ -39,6 +39,9 @@ body {
   color: rgba(235, 230, 230, 0.973);
 }
 
+.table {
+  border: 1px solid;
+}
 .table td,
 .table th {
   vertical-align: middle;
