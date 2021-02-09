@@ -20,6 +20,7 @@ body {
 
 .nav-link {
   font-weight: 600;
+  text-decoration: none;
 }
 
 .nav-item {
@@ -36,4 +37,27 @@ body {
 
 .dropdown-toggle:hover {
   color: rgba(235, 230, 230, 0.973);
+}
+
+.table td,
+.table th {
+  vertical-align: middle;
+}
+
+.t1-border {
+  border-right: 1px solid white;
+}
+
+.t2-border {
+  border-right: 1px solid black;
+}
+
+.blog-link {
+  text-decoration: none;
+  color: black;
+}
+
+.blog-link:hover {
+  color: rgba(15, 14, 14, 0.637);
+  text-decoration: none;
 }
