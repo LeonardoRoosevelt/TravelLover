@@ -1,0 +1,54 @@
+<div class="body">
+  <h1 class="page-title">TravelLover後台</h1>
+
+  {{#if category}}
+  <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded shadow-sm">
+    <form action="/admin/categories/{{category.id}}?_method=PUT" method="POST">
+      <input type="text" placeholder="name" name="name" value="{{category.category}}">
+      <input type="text" placeholder="icon" name="icon" value="{{category.icon}}">
+      <button type="submit">Update</button>
+      <a href="/admin/categories">or Create New</a>
+    </form>
+  </div>
+  {{else}}
+  <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded shadow-sm">
+    <form action="/admin/categories" method="POST">
+      <input type="text" placeholder="name" name="name">
+      <input type="text" placeholder="icon" name="icon">
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+  {{/if}}
+  <br />
+
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col" class='t1-border'>#</th>
+        <th scope="col" class='t1-border'>Category Name</th>
+        <th scope="col" class='t1-border'>Category Icon</th>
+        <th scope="col">#</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each categories}}
+      <tr>
+        <th scope="row" class='t2-border'>{{this.id}}</th>
+        <td class='t2-border'>{{this.category}}</td>
+        <td class='t2-border'>{{this.icon}}</td>
+        <td>
+          <a class="btn btn-primary" href="/admin/categories/{{this.id}}">
+            Edit
+          </a>
+          <form action="/admin/categories/{{this.id}}?_method=DELETE" method="POST" style="display: inline;">
+            <button type="submit" class="btn btn-danger">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
+<div class="text-center mt-2">
+  <a class="btn btn-danger pull-center" href="/admin">回上一頁</a>
+</div>

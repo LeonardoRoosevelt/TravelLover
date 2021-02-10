@@ -5,6 +5,7 @@ const User = db.User
 const Blog = db.Blog
 const Marker = db.Marker
 const Tracker = db.Tracker
+const Category = db.Category
 
 const adminController = {
   getUsers: (req, res, next) => {
@@ -118,10 +119,86 @@ const adminController = {
       .then(() => res.redirect('back'))
       .catch(next)
   },
-  getCategories: (req, res, next) => {},
-  createCategory: (req, res, next) => {},
-  editCategory: (req, res, next) => {},
-  deleteCategory: (req, res, next) => {},
+  getCategories: (req, res, next) => {
+    Category.findAll({ raw: true, nest: true }).then((categories) => {
+      res.render('./admin/categories', { categories })
+    })
+  },
+  createCategory: (req, res, next) => {
+    const { name } = req.body
+    let { icon } = req.body
+    let repeatCategory = false
+    if (!name) {
+      req.flash('error_messages', "you don't put on the category name")
+      res.redirect(`/admin/categories`)
+    }
+    if (!icon) {
+      icon = 'fa-info'
+    }
+    Category.findAll({ raw: true, nest: true })
+      .then((categories) => {
+        categories.forEach((category) => {
+          if (name === category.category) {
+            repeatCategory = true
+          }
+        })
+        if (repeatCategory) {
+          req.flash('error_messages', 'this category already exist')
+          return res.redirect(`/admin/categories`)
+        }
+        return Category.create({ category: name, icon: icon }).then(() => res.redirect('back'))
+      })
+      .catch(next)
+  },
+  getCategory: (req, res, next) => {
+    const { categoryId } = req.params
+    Category.findAll({ raw: true, nest: true })
+      .then((categories) => {
+        return Category.findByPk(categoryId, { raw: true, nest: true }).then((category) => {
+          return res.render('./admin/categories', { categories, category })
+        })
+      })
+      .catch(next)
+  },
+  editCategory: (req, res, next) => {
+    const { name, icon } = req.body
+    const { categoryId } = req.params
+    let repeatCategory = false
+    if (!name) {
+      req.flash('error_messages', "you don't put on the category name")
+      res.redirect(`/admin/categories/${categoryId}`)
+    }
+    Category.findByPk(categoryId)
+      .then((category) => {
+        Category.findAll({ raw: true, nest: true }).then((categories) => {
+          Promise.all([
+            categories.forEach((category) => {
+              if (name === category.category && Number(categoryId) !== category.id) {
+                repeatCategory = true
+              }
+            })
+          ]).then(() => {
+            if (repeatCategory) {
+              req.flash('error_messages', 'this category already exist')
+              return res.redirect(`/admin/categories/${categoryId}`)
+            }
+            return category
+              .update({ category: name ? name : category.category, icon: icon ? icon : category.icon })
+              .then(() => res.redirect('/admin/categories'))
+          })
+        })
+      })
+      .catch(next)
+  },
+  deleteCategory: (req, res, next) => {
+    const { categoryId } = req.params
+    Category.findByPk(categoryId)
+      .then((category) => {
+        category.destroy()
+      })
+      .then(() => res.redirect('back'))
+      .catch(next)
+  },
   getMarkers: (req, res, next) => {
     const { userId } = req.params
     return Marker.findAll({
@@ -139,7 +216,6 @@ const adminController = {
           ...marker,
           infoId: marker.type === 'blog' ? marker.Blogs.id : marker.Trackers.id
         }))
-        console.log(markers)
         return res.render('./admin/markers', { userId, markers })
       })
       .catch(next)
