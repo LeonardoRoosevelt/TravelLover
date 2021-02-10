@@ -1,19 +1,27 @@
-<div class="homeBtn text-center ">
-  <div class="row align-items-end">
-    <div class="col">
+<link rel="stylesheet" href="/stylesheets/error.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FitText.js/1.2.0/jquery.fittext.min.js"></script>
+
+<div class="text-center ">
+  <div class="row">
+    <div class="col" id="homeBtn">
       {{#if user}}
       {{#if user.isAdmin}}
-      <a href="/admin" class="btn btn-secondary">Backstage</a>
-      <a href="/admin/categories" class="btn btn-secondary">Categories</a>
+      <a href="/admin" class="homePageBtn btn-link">Backstage</a>
+      <a href="/admin/categories" class="homePageBtn btn-link">Categories</a>
       {{else}}
-      <a href="/blogs" class="btn btn-secondary">Blog</a>
-      <a href="/map" class="btn btn-success">Map</a>
-      <a href="/trackers" class="btn btn-info">Tracker</a>
+      <a href="/blogs" class="homePageBtn btn-link">Blog</a>
+      <a href="/map" class="homePageBtn btn-link">Map</a>
+      <a href="/trackers" class="homePageBtn btn-link">Tracker</a>
       {{/if}}
       {{else}}
-      <a href="/signin" class="btn btn-primary">Signin</a>
-      <a href="/signup" class="btn btn-success">Signup</a>
+      <a href="/signin" class="homePageBtn btn-link">Signin</a>
+      <a href="/signup" class="homePageBtn btn-link">Signup</a>
       {{/if}}
     </div>
   </div>
 </div>
+
+<script>
+  jQuery("#homeBtn").fitText(1.7);
+</script>
