@@ -51,6 +51,10 @@ const blogController = {
     const userId = req.user.id
     const { title, description, location, lat, lng } = req.body
     const type = 'blog'
+    if (!title) {
+      req.flash('error_messages', 'Please enter the title')
+      return res.redirect('/blogs')
+    }
     if (lat !== '') {
       return Marker.findOrCreate({
         raw: true,
@@ -102,6 +106,10 @@ const blogController = {
     const userId = req.user.id
     const { blogId } = req.params
     const { title, description, location } = req.body
+    if (!title) {
+      req.flash('error_messages', 'Please enter the title')
+      return res.redirect('/blogs')
+    }
 
     Blog.findByPk(blogId)
       .then((blog) => {

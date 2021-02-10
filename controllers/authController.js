@@ -34,6 +34,10 @@ const authController = {
             req.flash('error_messages', 'This email already exists.')
             return res.redirect('/signup')
           }
+          if (password.length < 8) {
+            req.flash('error_messages', 'Please enter at least 8 characters.')
+            return res.redirect('/signup')
+          }
         }
         return res.redirect('/signin')
       })
