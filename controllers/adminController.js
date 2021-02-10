@@ -87,8 +87,37 @@ const adminController = {
       .then(() => res.redirect('back'))
       .catch(next)
   },
-  getRecords: (req, res, next) => {},
-  deleteRecord: (req, res, next) => {},
+  getRecords: (req, res, next) => {
+    const { userId } = req.params
+    return Tracker.findAll({
+      raw: true,
+      nest: true,
+      where: { UserId: userId },
+      include: { model: User, attributes: ['id', 'account'] }
+    })
+      .then((records) => {
+        records.forEach((record) => {
+          record.date = dayjs(record.date).format('YYYY-MM-DD')
+        })
+        return res.render('./admin/trackers', { records })
+      })
+      .catch(next)
+  },
+  deleteRecord: (req, res, next) => {
+    const { userId, trackerId } = req.params
+    Tracker.findByPk(trackerId, { where: { UserId: userId } })
+      .then((record) => {
+        if (record.MarkerId !== null) {
+          record.destroy()
+          return Marker.findByPk(record.MarkerId).then((marker) => {
+            return marker.destroy()
+          })
+        }
+        return record.destroy()
+      })
+      .then(() => res.redirect('back'))
+      .catch(next)
+  },
   getCategories: (req, res, next) => {},
   createCategory: (req, res, next) => {},
   editCategory: (req, res, next) => {},
