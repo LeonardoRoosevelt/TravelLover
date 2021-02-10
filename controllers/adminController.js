@@ -68,7 +68,7 @@ const adminController = {
           blog.description =
             blog.description.length < 10 ? blog.description : blog.description.substring(0, 10) + ' ......'
         })
-        return res.render('./admin/blogs', { blogs })
+        return res.render('./admin/blogs', { userId, blogs })
       })
       .catch(next)
   },
@@ -99,7 +99,7 @@ const adminController = {
         records.forEach((record) => {
           record.date = dayjs(record.date).format('YYYY-MM-DD')
         })
-        return res.render('./admin/trackers', { records })
+        return res.render('./admin/trackers', { userId, records })
       })
       .catch(next)
   },
