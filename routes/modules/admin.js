@@ -13,6 +13,6 @@ router.post('/categories', adminController.createCategory)
 router.put('/categories/:categoryId', adminController.editCategory)
 router.delete('/categories/:categoryId', adminController.deleteCategory)
 router.get('/:userId/markers', adminController.getMarkers)
-router.delete('/:userId/markers/:markerId', adminController.deleteMarker)
+router.delete('/:userId/markers/:markerId/:infoId', adminController.deleteMarker)
 
 module.exports = router

@@ -10,5 +10,11 @@ module.exports = {
       return options.fn(this)
     }
     return options.inverse(this)
+  },
+  ifNull: function (a, options) {
+    if (a === null) {
+      return options.fn(this)
+    }
+    return options.inverse(this)
   }
 }

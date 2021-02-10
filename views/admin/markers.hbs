@@ -1,0 +1,56 @@
+<div class="body">
+  <h1>TravelLover後台</h1>
+
+  <ul class="nav nav-tabs">
+    <li class="nav-item bg-dark">
+      <a class="nav-link " style='color:white;' href="/admin/{{userId}}/blogs">Blogs</a>
+    </li>
+    <li class="nav-item bg-dark">
+      <a class="nav-link" style='color:white;' href="/admin/{{userId}}/trackers">Trackers</a>
+    </li>
+    <li class="nav-item bg-dark">
+      <a class="nav-link active" href="/admin/{{userId}}/markers">Markers</a>
+    </li>
+  </ul>
+  <br />
+  <br />
+  <br />
+
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col" class='t1-border'>#</th>
+        <th scope="col" class='t1-border'>User</th>
+        <th scope="col" class='t1-border'>Location</th>
+        <th scope="col" class='t1-border'>Info</th>
+        <th scope="col" class='t1-border'>Type</th>
+        <th scope="col">#</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each markers}}
+      <tr>
+        <th scope="row" class='t2-border'>{{this.id}}</th>
+        <td class='t2-border'>{{this.User.account}}</td>
+        {{#ifNull this.Trackers.location}}
+        <td class='t2-border'>{{this.Blogs.location}}</td>
+        <td class='t2-border'>{{this.Blogs.title}}</td>
+        {{else}}
+        <td class='t2-border'>{{this.Trackers.location}}</td>
+        <td class='t2-border'>{{this.Trackers.product}}</td>
+        {{/ifNull}}
+        <td class='t2-border'>{{this.type}}</td>
+        <td>
+          <form action="/admin/{{this.User.id}}/markers/{{this.id}}/{{this.infoId}}?_method=DELETE" method="POST"
+            style="display: inline;" onsubmit="return deleteCheckAgain()">
+            <button type="submit" class="btn btn-danger" style="display:inline;">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
+<div class="text-center mt-2">
+  <a class="btn btn-danger pull-center" href="/admin">回上一頁</a>
+</div>

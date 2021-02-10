@@ -122,8 +122,48 @@ const adminController = {
   createCategory: (req, res, next) => {},
   editCategory: (req, res, next) => {},
   deleteCategory: (req, res, next) => {},
-  getMarkers: (req, res, next) => {},
-  deleteMarker: (req, res, next) => {}
+  getMarkers: (req, res, next) => {
+    const { userId } = req.params
+    return Marker.findAll({
+      raw: true,
+      nest: true,
+      where: { UserId: userId },
+      include: [
+        { model: User, attributes: ['id', 'account'] },
+        { model: Tracker, attributes: ['location', 'product', 'id'] },
+        { model: Blog, attributes: ['location', 'title', 'id'] }
+      ]
+    })
+      .then((markers) => {
+        markers = markers.map((marker) => ({
+          ...marker,
+          infoId: marker.type === 'blog' ? marker.Blogs.id : marker.Trackers.id
+        }))
+        console.log(markers)
+        return res.render('./admin/markers', { userId, markers })
+      })
+      .catch(next)
+  },
+  deleteMarker: (req, res, next) => {
+    const { userId, markerId, infoId } = req.params
+    Marker.findByPk(markerId, {
+      where: { UserId: userId }
+    })
+      .then((marker) => {
+        return marker.destroy().then((marker) => {
+          if (marker.type === 'blog') {
+            return Blog.findByPk(infoId).then((blog) => {
+              blog.destroy()
+            })
+          }
+          return Tracker.findByPk(infoId).then((record) => {
+            record.destroy()
+          })
+        })
+      })
+      .then(() => res.redirect('back'))
+      .catch(next)
+  }
 }
 
 module.exports = adminController
