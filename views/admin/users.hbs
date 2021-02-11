@@ -20,9 +20,9 @@
         <th scope="row" class='t2-border'>{{this.id}}</th>
         <td class='t2-border'>{{this.account}}</td>
         <td class='t2-border'> User</td>
-        <td class='t2-border'><a href='admin/{{this.id}}/blogs'>{{this.totalBlog}}</a></td>
-        <td class='t2-border'><a href='admin/{{this.id}}/trackers'>{{this.totalAmount}}</a></td>
-        <td class='t2-border'><a href='admin/{{this.id}}/markers'>{{this.totalMarker}}</a></td>
+        <td class='t2-border'><a href='admin/{{this.id}}/blogs' class="adminlink">{{this.totalBlog}} 篇</a></td>
+        <td class='t2-border'><a href='admin/{{this.id}}/trackers' class="adminlink">{{this.totalAmount}} 元</a></td>
+        <td class='t2-border'><a href='admin/{{this.id}}/markers' class="adminlink">{{this.totalMarker}} 個</a></td>
         <td>
           <form action="/admin/{{this.id}}?_method=DELETE" method="POST" style="display:inline;"
             onsubmit="return deleteCheckAgain()">
