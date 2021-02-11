@@ -30,7 +30,11 @@
         </div>
         <div class="newRecord">
           <label for='date' class='new-label col-2'>支出日期:</label>
+          {{#if record}}
           <input type="date" class='new-input col-8' placeholder="date" name="date" value="{{record.date}}" required>
+          {{else}}
+          <input type="date" class='new-input col-8' placeholder="date" name="date" value="{{today}}" required>
+          {{/if}}
         </div>
         <div class="newRecord">
           <label for='location' class='new-label col-2'>支出地點:</label>

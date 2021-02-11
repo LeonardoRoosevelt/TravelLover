@@ -68,7 +68,6 @@ const filterController = {
   filterRecords: (req, res, next) => {
     const userId = req.user.id
     const { year, month, category } = req.query
-    let categoriesList = []
     let recordsList = []
     let totalAmount = 0
     let monthsList = [
@@ -98,6 +97,8 @@ const filterController = {
           records.map((record) => {
             let currentYear = yearFilter(record.date).toString()
             let currentMonth = monthsList[monthFilter(record.date)]
+            record.date = dayjs(record.date).format('YYYY/MM/DD')
+            record.CategoryId = record.Category.icon
             if (category === '全部' && month === '全部' && year === '全部') {
               recordsList.push(record)
             } else if (month === '全部' && year === '全部') {
@@ -129,27 +130,21 @@ const filterController = {
                 recordsList.push(record)
               }
             }
-          }),
+          })
+        ]).then(() => {
           Category.findAll({ raw: true }).then((categories) => {
-            categories.forEach((category) => {
-              categoriesList.push(category)
+            totalAmount = recordsList.map((record) => record.price).reduce((a, b) => a + b, 0)
+            return res.render('tracker', {
+              records: recordsList,
+              yearsList,
+              categoriesList: categories,
+              monthsList,
+              totalAmount,
+              years: year,
+              months: month,
+              categories: category
             })
           })
-        ])
-        recordsList.forEach((record) => {
-          record.date = dayjs(record.date).format('YYYY/MM/DD')
-          record.CategoryId = record.Category.icon
-        })
-        totalAmount = recordsList.map((record) => record.price).reduce((a, b) => a + b, 0)
-        return res.render('tracker', {
-          records: recordsList,
-          yearsList,
-          categoriesList,
-          monthsList,
-          totalAmount,
-          years: year,
-          months: month,
-          categories: category
         })
       })
       .catch(next)
