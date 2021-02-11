@@ -3,9 +3,14 @@ const dayjs = require('dayjs')
 const Blog = db.Blog
 const Marker = db.Marker
 const { yearFilter } = require('../public/javascript/function')
+const pageLimit = 10
 
 const blogController = {
   getBlogs: (req, res, next) => {
+    let offset = 0
+    if (req.query.page) {
+      offset = (req.query.page - 1) * pageLimit
+    }
     const userId = req.user.id
     const monthsList = [
       '一月',
@@ -21,16 +26,34 @@ const blogController = {
       '十一月',
       '十二月'
     ]
-    Blog.findAll({ raw: true, order: [['createdAt', 'DESC']], where: { UserId: userId } })
-      .then((blogs) => {
-        const yearsList = [...new Set(blogs.map((blog) => yearFilter(blog.createdAt)))]
-        blogs.forEach((blog) => {
-          blog.createdAt = dayjs(blog.createdAt).format('YYYY-MM-DD')
-          blog.description =
-            blog.description.length < 50 ? blog.description : blog.description.substring(0, 50) + ' ......'
+    Blog.findAndCountAll({
+      order: [['createdAt', 'DESC']],
+      where: { UserId: userId },
+      offset: offset,
+      limit: pageLimit
+    })
+      .then((result) => {
+        const page = Number(req.query.page) || 1
+        const pages = Math.ceil(result.count / pageLimit)
+        const totalPage = Array.from({ length: pages }).map((item, index) => index + 1)
+        const prev = page - 1 < 1 ? 1 : page - 1
+        const next = page + 1 > pages ? pages : page + 1
+        const yearsList = [...new Set(result.rows.map((b) => yearFilter(b.createdAt)))]
+        const data = result.rows.map((b) => ({
+          ...b.dataValues,
+          createdAt: dayjs(b.createdAt).format('YYYY-MM-DD'),
+          description: b.description.length < 50 ? b.description : b.description.substring(0, 50) + ' ......'
+        }))
+        console.log(data)
+        return res.render('blogs', {
+          blogs: data,
+          yearsList,
+          monthsList,
+          page: page,
+          totalPage: totalPage,
+          prev: prev,
+          next: next
         })
-
-        return res.render('blogs', { blogs, yearsList, monthsList })
       })
       .catch(next)
   },

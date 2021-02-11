@@ -4,12 +4,16 @@ const Category = db.Category
 const Marker = db.Marker
 const dayjs = require('dayjs')
 const { yearFilter } = require('../public/javascript/function')
+const pageLimit = 10
 
 const trackController = {
   getRecord: (req, res, next) => {
+    let offset = 0
+    if (req.query.page) {
+      offset = (req.query.page - 1) * pageLimit
+    }
     const userId = req.user.id
     let totalAmount = 0
-    let categoriesList = []
     let yearsList = []
     let monthsList = [
       '一月',
@@ -25,33 +29,38 @@ const trackController = {
       '十一月',
       '十二月'
     ]
-    Tracker.findAll({
-      raw: true,
-      nest: true,
+    Tracker.findAndCountAll({
       order: [['date', 'ASC']],
       where: { UserId: userId },
-      include: [{ model: Category }]
+      include: [{ model: Category }],
+      offset: offset,
+      limit: pageLimit
     })
-      .then((records) => {
-        yearsList = [...new Set(records.map((record) => yearFilter(record.date)))]
-        totalAmount = records.map((record) => record.price).reduce((a, b) => a + b, 0)
-        Promise.all([
-          records.forEach((record) => {
-            record.date = dayjs(record.date).format('YYYY/MM/DD')
-            record.CategoryId = record.Category.icon
-          }),
-          Category.findAll({ raw: true }).then((categories) => {
-            categories.forEach((category) => {
-              categoriesList.push(category)
-            })
-          })
-        ]).then(() => {
+      .then((result) => {
+        let row = result.rows
+        const page = Number(req.query.page) || 1
+        const pages = Math.ceil(result.count / pageLimit)
+        const totalPage = Array.from({ length: pages }).map((item, index) => index + 1)
+        const prev = page - 1 < 1 ? 1 : page - 1
+        const next = page + 1 > pages ? pages : page + 1
+        yearsList = [...new Set(row.map((r) => yearFilter(r.date)))]
+        totalAmount = row.map((r) => r.price).reduce((a, b) => a + b, 0)
+        const data = row.map((r) => ({
+          ...r.dataValues,
+          date: dayjs(r.date).format('YYYY/MM/DD'),
+          CategoryId: r.Category.icon
+        }))
+        return Category.findAll({ raw: true }).then((categories) => {
           return res.render('tracker', {
-            records,
+            records: data,
             totalAmount,
             yearsList,
-            categoriesList,
-            monthsList
+            categoriesList: categories,
+            monthsList,
+            page: page,
+            totalPage: totalPage,
+            prev: prev,
+            next: next
           })
         })
       })
@@ -59,13 +68,17 @@ const trackController = {
   },
   getCreateRecord: (req, res, next) => {
     Category.findAll({ raw: true }).then((categories) => {
-      res.render('newRecord', { categories })
+      const today = new Date().toISOString().slice(0, 10)
+      res.render('newRecord', { categories, today })
     })
   },
   createRecord: (req, res, next) => {
     const userId = req.user.id
-    const { product, date, price, categoryId, location, lat, lng } = req.body
-    console.log(lat)
+    const { product, date, price, location, lat, lng } = req.body
+    let { categoryId } = req.body
+    if (!categoryId) {
+      categoryId = 5
+    }
     if (lat !== '') {
       return Marker.findOrCreate({
         raw: true,
@@ -117,6 +130,7 @@ const trackController = {
     const userId = req.user.id
     const { recordId } = req.params
     const { product, date, price, categoryId } = req.body
+
     Tracker.findByPk(recordId, { include: { model: Marker } })
       .then((record) => {
         if (!record || userId !== record.UserId) {

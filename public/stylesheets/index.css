@@ -106,3 +106,8 @@ tbody {
 .adminlink:hover {
   text-decoration: none;
 }
+
+.page-nav {
+  display: flex;
+  justify-content: center;
+}
