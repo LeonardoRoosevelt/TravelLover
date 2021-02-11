@@ -8,6 +8,7 @@ const { monthFilter, yearFilter } = require('../public/javascript/function')
 
 const filterController = {
   filterBlogs: (req, res, next) => {
+    const userId = req.user.id
     const { year, month } = req.query
     let blogList = []
     let monthsList = [
@@ -24,7 +25,7 @@ const filterController = {
       '十一月',
       '十二月'
     ]
-    Blog.findAll({ raw: true, nest: true, order: [['createdAt', 'DESC']] }).then((blogs) => {
+    Blog.findAll({ raw: true, nest: true, where: { UserId: userId }, order: [['createdAt', 'DESC']] }).then((blogs) => {
       const yearsList = [...new Set(blogs.map((blog) => yearFilter(blog.createdAt)))]
       Promise.all([
         blogs.map((blog) => {
@@ -65,6 +66,7 @@ const filterController = {
     })
   },
   filterRecords: (req, res, next) => {
+    const userId = req.user.id
     const { year, month, category } = req.query
     let categoriesList = []
     let recordsList = []
@@ -83,7 +85,13 @@ const filterController = {
       '十一月',
       '十二月'
     ]
-    Tracker.findAll({ raw: true, nest: true, order: [['date', 'ASC']], include: [{ model: Category }] })
+    Tracker.findAll({
+      raw: true,
+      nest: true,
+      order: [['date', 'ASC']],
+      where: { UserId: userId },
+      include: [{ model: Category }]
+    })
       .then((records) => {
         const yearsList = [...new Set(records.map((record) => yearFilter(record.date)))]
         Promise.all([
@@ -147,6 +155,7 @@ const filterController = {
       .catch(next)
   },
   filterMap: (req, res, next) => {
+    const userId = req.user.id
     const { year, month, type } = req.query
     let monthsList = [
       '一月',
@@ -162,7 +171,7 @@ const filterController = {
       '十一月',
       '十二月'
     ]
-    Marker.findAll({ raw: true, nest: true }).then((markers) => {
+    Marker.findAll({ raw: true, nest: true, where: { UserId: userId } }).then((markers) => {
       let yearsList = [...new Set(markers.map((marker) => yearFilter(marker.createdTime)))]
       const typesList = [...new Set(markers.map((marker) => marker.type))]
       if (type !== '全部') {
