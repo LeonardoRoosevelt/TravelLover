@@ -1,28 +1,30 @@
 # Travel Lover
-®È¹C°O¨Æ¦a¹Ï
+æ—…éŠè¨˜äº‹åœ°åœ–
 
-## ´ú¸Õ±b¸¹
-ºŞ²z­û:
-account:manager
-password: 12345678
-¨Ï¥ÎªÌ:
-account:user1
-password: 12345678
+## æ¸¬è©¦å¸³è™Ÿ
+    ç®¡ç†å“¡:
+    account:manager
+    password: 12345678
+    ä½¿ç”¨è€…:
+    account:user1
+    password: 12345678
 
 
 ## Features
-###Blog
--¦C¥X©Ò¦³³¡¸¨®æ¸ê®Æ
--¥i¨Ì·Ó®É¶¡Åã¥Ü
--¥i·s¼W¡BÅÜ§ó¡B§R°£¤ä¥X©ú²Ó
-###Tracker
--¦C¥X©Ò¦³°O±bªº¸ê®Æ¨Ã­pºâÁ`ª÷ÃB
--¥i¨Ì·ÓÃş§O¤ÀÃş©M®É¶¡Åã¥Ü
--¥i·s¼W¡BÅÜ§ó¡B§R°£¤ä¥X©ú²Ó
-###Map
--¦C¥X©Ò¦³¼Ğ°O¦ì¸m
--¥i¨Ì·ÓÃş§O¤ÀÃş©M®É¶¡Åã¥Ü
--¥i³z¹L¼Ğ°O¬ö¿ı³¡¸¨®æ©Î°O±b
+
+### Blog ######
+*   åˆ—å‡ºæ‰€æœ‰éƒ¨è½æ ¼è³‡æ–™
+*   å¯ä¾ç…§æ™‚é–“é¡¯ç¤º
+*   å¯æ–°å¢ã€è®Šæ›´ã€åˆªé™¤æ”¯å‡ºæ˜ç´°
+
+### Tracker ######
+*   åˆ—å‡ºæ‰€æœ‰è¨˜å¸³çš„è³‡æ–™ä¸¦è¨ˆç®—ç¸½é‡‘é¡
+*   å¯ä¾ç…§é¡åˆ¥åˆ†é¡å’Œæ™‚é–“é¡¯ç¤º
+*   å¯æ–°å¢ã€è®Šæ›´ã€åˆªé™¤æ”¯å‡ºæ˜ç´°
+### Map ######
+*   åˆ—å‡ºæ‰€æœ‰æ¨™è¨˜ä½ç½®
+*   å¯ä¾ç…§é¡åˆ¥åˆ†é¡å’Œæ™‚é–“é¡¯ç¤º
+*   å¯é€éæ¨™è¨˜ç´€éŒ„éƒ¨è½æ ¼æˆ–è¨˜å¸³
 
 ### Filter
 select category,year or month to filter the list
@@ -37,61 +39,61 @@ click the edit button bellow to edit the information
 click the delete button bellow to delete the information
 
 
-### Environment SetUp - Àô¹Ò«Ø¸m
+### Environment SetUp - ç’°å¢ƒå»ºç½®
 
-Node.js
-Express: 4.17.1
-nodemon
-body-parser: 1.19.0
-connect-flash: 0.1.1
-dotenv: 8.2.0
-passport: 0.4.1
-bcryptjs: 2.4.3,
-connect-flash: 0.1.1,
-dayjs: 1.10.3,
-express-handlebars: 5.2.0,
-express-session: 1.17.1,
-imgur: 0.3.1,
-imgur-node-api: 0.1.0,
-method-override: 3.0.0,
-multer: 1.4.2,
-mysql2: 2.2.5,
-sequelize: 6.3.5,
-sequelize-cli: 6.2.0
+*   Node.js
+*   Express: 4.17.1
+*   nodemon
+*   body-parser: 1.19.0
+*   connect-flash: 0.1.1
+*   dotenv: 8.2.0
+*   passport: 0.4.1
+*   bcryptjs: 2.4.3,
+*   connect-flash: 0.1.1,
+*   dayjs: 1.10.3,
+*   express-handlebars: 5.2.0,
+*   express-session: 1.17.1,
+*   imgur: 0.3.1,
+*   imgur-node-api: 0.1.0,
+*   method-override: 3.0.0,
+*   multer: 1.4.2,
+*   mysql2: 2.2.5,
+*   sequelize: 6.3.5,
+*   sequelize-cli: 6.2.0
 
-### Installing - ±M®×¦w¸Ë¬yµ{
-¥´¶}§Aªº terminal¡AClone ¦¹±M®×¦Ü¥»¾÷¹q¸£
+### Installing - å°ˆæ¡ˆå®‰è£æµç¨‹
+æ‰“é–‹ä½ çš„ terminalï¼ŒClone æ­¤å°ˆæ¡ˆè‡³æœ¬æ©Ÿé›»è…¦
 ```
 git clone https://github.com/LeonardoRoosevelt/TravelLover
 ```
-¶}±Ò²×ºİ¾÷(Terminal)¡A¶i¤J¦s©ñ¦¹±M®×ªº¸ê®Æ§¨
+é–‹å•Ÿçµ‚ç«¯æ©Ÿ(Terminal)ï¼Œé€²å…¥å­˜æ”¾æ­¤å°ˆæ¡ˆçš„è³‡æ–™å¤¾
 ```
 cd TravelLover
 ```
-¦w¸Ë npm ®M¥ó
+å®‰è£ npm å¥—ä»¶
 ```
-¦b Terminal ¿é¤J npm install «ü¥O
+åœ¨ Terminal è¼¸å…¥ npm install æŒ‡ä»¤
 ```
-¦w¸Ë nodemon ®M¥ó
+å®‰è£ nodemon å¥—ä»¶
 ```
-¦b Terminal ¿é¤J nodemon app.js «ü¥O
+åœ¨ Terminal è¼¸å…¥ nodemon app.js æŒ‡ä»¤
 ```
-±Ò°Ê¦øªA¾¹¡A°õ¦æ app.js ÀÉ®×
+å•Ÿå‹•ä¼ºæœå™¨ï¼ŒåŸ·è¡Œ app.js æª”æ¡ˆ
 ```
 nodemon app.js
 ```
-¾É¤J¹w³]¸ê®Æ
+å°å…¥é è¨­è³‡æ–™
 ```
 npm run seed
 ```
-·í terminal ¥X²{¥H¤U¦r¼Ë¡Aªí¥Ü¦øªA¾¹»P¸ê®Æ®w¤w±Ò°Ê¨Ã¦¨¥\³sµ²
+ç•¶ terminal å‡ºç¾ä»¥ä¸‹å­—æ¨£ï¼Œè¡¨ç¤ºä¼ºæœå™¨èˆ‡è³‡æ–™åº«å·²å•Ÿå‹•ä¸¦æˆåŠŸé€£çµ
 ```
 The Express server is running on http://localhost:3000
 ```
 
-²{¦b¡A§A¥i¶}±Ò¥ô¤@ÂsÄı¾¹ÂsÄı¾¹¿é¤J "http://localhost:3000" ¶}©l¨Ï¥Î
+ç¾åœ¨ï¼Œä½ å¯é–‹å•Ÿä»»ä¸€ç€è¦½å™¨ç€è¦½å™¨è¼¸å…¥ "http://localhost:3000" é–‹å§‹ä½¿ç”¨
 
 
 
-### Contributor - ±M®×¶}µo¤H­û
+### Contributor - å°ˆæ¡ˆé–‹ç™¼äººå“¡
 [Leonardo Roosevelt](https://github.com/LeonardoRoosevelt)
